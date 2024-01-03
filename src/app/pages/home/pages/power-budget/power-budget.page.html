@@ -1,0 +1,329 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="changeSelectedLink()">
+        Enlace: {{settingsService.linkSettings.linkName}}
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Presupuesto de potencia</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-grid class="ion-padding">
+    <ion-row size="12" class="ion-justify-content-center ion-align-self-center">
+        <ion-avatar>
+          <img src="{{antennaSelected.imgPath}}" />
+        </ion-avatar>
+    </ion-row>
+  
+    <ion-row size="12" class="ion-justify-content-center ion-align-self-center">
+      <h3>
+        Antena seleccionada
+      </h3>
+    </ion-row>
+
+    <ion-row size="12" class="ion-justify-content-center ion-align-self-center">
+      <h4 class="mt-0px">
+        {{antennaSelected.name}}
+      </h4>
+    </ion-row>
+
+    <ion-row size="12" class="ion-justify-content-center ion-align-self-center">
+      <ion-button  (click)="navToAntennaList()">
+        Cambiar
+      </ion-button>
+    </ion-row>
+  </ion-grid>
+
+  <ion-card>
+
+    <ion-card-header class="ion-padding">
+      <ion-card-title>Estadisticas del enlace:</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-grid [formGroup]="settingsForm"
+                *ngIf="showSettingsForm">
+        <ion-row class="mb-10px">
+          <h3>
+            Punto inicial
+          </h3>
+        </ion-row>
+        <ion-row class="mb-10px">
+          <ion-col>
+            <ion-input fill="outline"
+                       label="Latitud" 
+                       labelPlacement="floating" 
+                       placeholder="Ingresa latitud" 
+                       type="number"
+                       formControlName="initialLat"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-input fill="outline"
+                       label="Longitud"
+                       labelPlacement="floating" 
+                       placeholder="Ingresa longitud" 
+                       type="number"
+                       formControlName="initialLng"></ion-input>
+          </ion-col>
+        </ion-row>
+    
+        <ion-row class="mb-10px">
+          <h3>
+            Punto final
+          </h3>
+        </ion-row>
+        <ion-row class="mb-10px">
+          <ion-col>
+            <ion-input fill="outline"
+                       label="Latitud" 
+                       labelPlacement="floating" 
+                       placeholder="Ingresa latitud" 
+                       type="number"
+                       formControlName="finalLat"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-input fill="outline"
+                       label="Longitud"
+                       labelPlacement="floating" 
+                       placeholder="Ingresa longitud" 
+                       type="number"
+                       formControlName="finalLng"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mb-10px">
+          <h3>
+            Frecuencia
+          </h3>
+        </ion-row>
+        <ion-row class="mb-10px">
+          <ion-list [inset]="true">
+            <ion-item [button]="true" [detail]="false" id="select-frecuency">
+              <ion-label>Seleccionar Frecuencia</ion-label>
+            </ion-item>
+          </ion-list>
+          
+          <ion-modal trigger="select-frecuency" #modal>
+            <ng-template>
+              <app-link-frecuencies
+                class="ion-page"
+                title="Frecuencias Licenciadas"
+                [items]="frecuencies"
+                [selectedItems]="selectedFrecuency"
+                (selectionChange)="frecuencySelectionChanged($event)"
+                (selectionCancel)="modal.dismiss()"
+              ></app-link-frecuencies>
+            </ng-template>
+          </ion-modal>
+
+          <ion-col class="ion-justify-content-center ion-align-self-center">
+            <ion-input fill="outline"
+                       label="Frecuencia"
+                      labelPlacement="floating" 
+                      placeholder="Ingresa frecuencia" 
+                      type="number"
+                      formControlName="frecuency"></ion-input>
+          </ion-col>
+          <ion-col size="4"
+                   class="ion-justify-content-center ion-align-self-center">
+            <h1>MHz</h1>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center ion-align-self-center link-distance">
+          <h2>Distancia del enlace - {{linkDistance | truncate: 6}} KM</h2>
+        </ion-row>
+      </ion-grid>
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="6" class="ion-text-center">
+            <ion-button class="center" (click)="calculateDistance()">
+              Obtener distancia del enlace
+            </ion-button>
+          </ion-col>
+          <ion-col size="6" class="ion-text-center">
+            <ion-button class="center" (click)="calculatePEL()">
+              Calcular PEL
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  
+  </ion-card>
+  <ion-card>
+    <ion-card-header class="ion-padding">
+      <ion-card-title>Presupuesto de potencia:</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-grid [formGroup]="antennaForm"
+                *ngIf="showForm">
+        <ion-row>
+          <ion-col>
+            <h2 class="mb-10px">
+              Potencia de Transmisión - (dBm)
+            </h2>
+            <ion-input fill="outline"
+                        label="Potencia de Transmisión" 
+                        labelPlacement="floating" 
+                        placeholder="Ingresa valor" 
+                        type="number"
+                        formControlName="txPower"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <h2 class="mb-10px">
+              Ganancia de la antena TX - (dBi)
+            </h2>
+            <ion-input fill="outline"
+                        label="Ganancia de Antena Transmisora"
+                        labelPlacement="floating"
+                        placeholder="Ingresa valor" 
+                        type="number"
+                        formControlName="txAntennaGain"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <h2 class="mb-10px">
+              Pérdidas de Transmisión (cables, conectores, etc) - (dB)
+            </h2>
+            <ion-input fill="outline"
+                        label="Pérdidas de Transmisión" 
+                        labelPlacement="floating" 
+                        placeholder="Ingresa valor" 
+                        type="number"
+                        formControlName="txLoss"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <h2 class="mb-10px">
+              Pérdidas de espacio libre - (dBm) (92.44 + 20log(d(km)) + 20log(f(GHz)))
+            </h2>
+            <!-- <ion-input fill="outline"
+                        label="Pérdidas de Espacio Libre" 
+                        labelPlacement="floating" 
+                        placeholder="Ingresa valor" 
+                        type="number"
+                        [disabled]="true"
+                        formControlName="freeSpaceLoss"></ion-input> -->
+            <h2 class="pel-style">{{PEL}}</h2>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <h2 class="mb-10px">
+              Ganancia antena receptora - (dBi)
+            </h2>
+            <ion-input fill="outline"
+                        label="Ganancia de Antena Receptora"
+                        labelPlacement="floating" 
+                        placeholder="Ingresa valor" 
+                        type="number"
+                        formControlName="rxAntennaGain"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <h2 class="mb-10px">
+              Pérdidas de recepción (cable, conectores, etc) - (dB)
+            </h2>
+            <ion-input fill="outline"
+                        label="Pérdidas de Recepción" 
+                        labelPlacement="floating" 
+                        placeholder="Ingresa valor" 
+                        type="number"
+                        formControlName="rxLoss"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <h2 class="mb-10px">
+              Otras pérdidas (Margen de desvanecimiento, desajuste de polarización, etc) - (dB)
+            </h2>
+            <ion-input fill="outline"
+                        label="Otras pérdidas" 
+                        labelPlacement="floating" 
+                        placeholder="Ingresa valor" 
+                        type="number"
+                        formControlName="miscLoss"></ion-input>
+          </ion-col>
+        </ion-row>
+        
+        <ion-row class="ion-justify-content-center ion-align-self-center">
+          <ion-col class="power-budget-result">
+
+            <h1 class="text-center">
+              Presupuesto de potencia:
+            </h1>
+
+            <h2 class="text-center mt-10px">
+
+              Prx = {{antennaForm.get('txPower').value}} (Ptx) + 
+                    {{antennaForm.get('txAntennaGain').value}} (Gtx) -
+                    {{antennaForm.get('txLoss').value}} (Ltx) -
+                    {{antennaForm.get('freeSpaceLoss').value}} (Lfs) -
+                    {{antennaForm.get('miscLoss').value}} (Lm) +
+                    {{antennaForm.get('rxAntennaGain').value}} (Grx) -
+                    {{antennaForm.get('rxLoss').value}} (Lrx) = {{powerAddition()}} (dBm)
+
+            </h2>
+
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="ion-justify-content-center ion-align-self-center">
+          <ion-col class="power-budget-result">
+
+            <h2>
+              Sumario:
+            </h2>
+
+            <ul class="mt-10px">
+
+              <li>Prx: Potencia del receptor</li>
+              <li>Ptx: Potencia del transmisor</li>
+              <li>Gtx: Ganancia de la antena transmisora</li>
+              <li>Ltx: Pérdidas de transmisión (Cable, conectores, etc)</li>
+              <li>Lfs: Pérdidas de espacio libre</li>
+              <li>Lm: Otras pérdidas (Margen de desvanecimiento, desajuste de polarización, etc)</li>
+              <li>Lrx: Pérdidas en el receptor (Cable, conectores, etc)</li>
+
+            </ul>
+
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+        </ion-row>
+
+
+      </ion-grid>
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>
+
+<ion-fab slot="fixed" 
+          vertical="bottom" 
+          horizontal="end">
+  <ion-fab-button>
+    <ion-icon name="settings-outline"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="top">
+    <ion-fab-button (click)="saveLinkSettings()">
+      <ion-icon name="save"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>
