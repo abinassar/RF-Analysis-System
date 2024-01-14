@@ -35,6 +35,11 @@ const routes: Routes = [
         canActivate: [SessionGuard]
       },
       {
+        path: 'surface-graphic',
+        loadChildren: () => import('./pages/surface-graphic/surface-graphic.module').then( m => m.SurfaceGraphicPageModule),
+        canActivate: [SessionGuard]
+      },
+      {
         path: '',
         redirectTo: '/home/dashboard',
         pathMatch: 'full'

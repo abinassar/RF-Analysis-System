@@ -41,7 +41,12 @@ const routes: Routes = [
   {
     path: 'graphic',
     loadChildren: () => import('./pages/home/pages/graphic/graphic.module').then( m => m.GraphicPageModule)
+  },
+  {
+    path: 'surface-graphic',
+    loadChildren: () => import('./pages/home/pages/surface-graphic/surface-graphic.module').then( m => m.SurfaceGraphicPageModule)
   }
+
 
 
 ];

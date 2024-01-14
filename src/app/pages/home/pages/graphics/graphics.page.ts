@@ -77,7 +77,7 @@ export class GraphicsPage implements OnDestroy {
 
   async ionViewDidEnter() {
 
-    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
+    // this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
 
     // await this.homeService.getUserLinks();
 

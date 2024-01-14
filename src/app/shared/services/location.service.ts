@@ -3,15 +3,16 @@ import { DataService } from './data.service';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { ElevationData, GeoPoint, LocationWeather } from '../models';
+import { SurfaceData } from '@shared/models/surface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocationService {
 
-  // uri: string = 'http://127.0.0.1:5000';
+  uri: string = 'http://127.0.0.1:5000';
   // uri: string = 'http://abinassar.pythonanywhere.com';
-  uri: string = 'http://einfokus.com/rf-analisys-system';
+  // uri: string = 'http://einfokus.com/rf-analisys-system';
 
   constructor(private dataService: DataService) { }
 
@@ -19,6 +20,13 @@ export class LocationService {
     console.log("startPoint ", startPoint)
     console.log("endPoint ", endPoint)
     return this.dataService.post(this.uri + "/elevation_profile", {
+      "start_point": startPoint,
+      "end_point": endPoint
+    })
+  }
+
+  getSurfaceData(startPoint: GeoPoint, endPoint: GeoPoint): Observable<SurfaceData> {
+    return this.dataService.post(this.uri + "/surface_points", {
       "start_point": startPoint,
       "end_point": endPoint
     })
