@@ -433,8 +433,8 @@ export class ElevationProfileComponent implements OnDestroy {
       // Ademas, uso la funcion de interpolacion para que los puntos que hay
       // repetidos se cambien y asi generar una grafica continua y no cuadrada
 
-      console.log("this.elevationDataX ", this.elevationDataX)
-      console.log("this.elevationDataY ", this.elevationDataY)
+      // console.log("this.elevationDataX ", this.elevationDataX)
+      // console.log("this.elevationDataY ", this.elevationDataY)
 
       this.elevationDataY = this.interpolateArray(this.elevationDataY);
       const maxY = Math.max(...this.elevationDataY);

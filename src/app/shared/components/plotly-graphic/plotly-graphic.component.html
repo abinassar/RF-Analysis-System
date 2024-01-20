@@ -2,11 +2,34 @@
   <plotly-plot [data]="data" 
                [layout]="layout" 
                [useResizeHandler]="true"
-               [style]="{position: 'relative', width: '100%', height: '100%'}">
+               [style]="{position: 'relative', width: '100%', height: '100%'}"
+               *ngIf="!show3dGraph">
   </plotly-plot>
+
+  <div *ngIf="show3dGraph"
+       id="3d-chart"></div>
+
   <div class="floating-buttons">
 
     <button class="floating-button" 
+            (click)="generate3dChart()"
+            *ngIf="!show3dGraph">
+    
+            <img src="../../../../../../../assets/icons/3d-graph.svg"
+                 width="25px">
+            
+    </button>
+
+    <button class="floating-button" 
+            (click)="generate2dChart()"
+            *ngIf="show3dGraph">
+    
+            <img src="../../../../../../../assets/icons/elevation-graph.svg"
+                 width="25px">
+            
+    </button>
+
+    <button class="floating-button mt-10px" 
             (click)="portraitOrientation()">
     
             <img src="../../../../../../../assets/icons/phone-portrait-outline.svg"
