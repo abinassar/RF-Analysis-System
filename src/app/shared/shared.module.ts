@@ -12,7 +12,6 @@ import { PlotlyModule } from 'angular-plotly.js';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyGraphicComponent } from './components/plotly-graphic/plotly-graphic.component';
 import { LinkFrecuenciesComponent } from './components/link-frecuencies/link-frecuencies.component';
-import { SurfaceGraphicComponent } from './components/surface-graphic/surface-graphic.component';
 PlotlyModule.plotlyjs = PlotlyJS;
 
 @NgModule({
@@ -23,7 +22,6 @@ PlotlyModule.plotlyjs = PlotlyJS;
     LinkSettingsComponent,
     PlotlyGraphicComponent,
     LinkFrecuenciesComponent,
-    SurfaceGraphicComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +36,6 @@ PlotlyModule.plotlyjs = PlotlyJS;
     OptionsModalComponent,
     PlotlyGraphicComponent,
     LinkFrecuenciesComponent,
-    SurfaceGraphicComponent
   ],
   providers: [
     ScreenOrientation
