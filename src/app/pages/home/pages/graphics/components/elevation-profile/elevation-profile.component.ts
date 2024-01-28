@@ -417,13 +417,22 @@ export class ElevationProfileComponent implements OnDestroy {
 
       let elevationProfileData = response.elevations;
       this.settingsService.linkDistance = response.linkDistance;
+      let earthCurvePoints = [];
   
       // Get point x and y for each position in map
   
       for (let index = 0; index < elevationProfileData.length; index++) {
         
         this.elevationDataX.push(positionX);
-        this.elevationDataY.push(elevationProfileData[index]);
+
+        // Agrego la curvatura de la tierra a la elevacion del punto
+
+        // this.elevationDataY.push(elevationProfileData[index]);
+        let elevationWithCurve = this.addCurvatureOfTheEarth(elevationProfileData[index],
+                                                             positionX,
+                                                             response.linkDistance);
+        this.elevationDataY.push(elevationProfileData[index] + elevationWithCurve);
+        earthCurvePoints.push(elevationWithCurve);
   
         positionX += distanceFraction;
       }
@@ -434,7 +443,7 @@ export class ElevationProfileComponent implements OnDestroy {
       // repetidos se cambien y asi generar una grafica continua y no cuadrada
 
       // console.log("this.elevationDataX ", this.elevationDataX)
-      // console.log("this.elevationDataY ", this.elevationDataY)
+      console.log("this.elevationDataY ", this.elevationDataY)
 
       this.elevationDataY = this.interpolateArray(this.elevationDataY);
       const maxY = Math.max(...this.elevationDataY);
@@ -482,6 +491,21 @@ export class ElevationProfileComponent implements OnDestroy {
         }
       };
 
+      // Adding the earth curve points
+
+      this.elevationData.data.push(
+        {
+          x: this.elevationDataX,
+          y: earthCurvePoints,
+          type: 'scatter',
+          line: {
+            color: '#00aa03'
+          },
+          // name: 'zona de fresnel inferior',
+          showlegend: false
+        }      
+      );
+  
       // Agregar la altura por defecto de la elevacion de la tierra
       // A la altura de la antena
 
@@ -1014,6 +1038,21 @@ export class ElevationProfileComponent implements OnDestroy {
 
     return 17.32 * Math.sqrt((d1 * d2)/((d1 + d2) * ghzFrecuency));
 
+  }
+
+  addCurvatureOfTheEarth(pointElevation: number,
+                         pointDistanceX: number,
+                         linkDistance: number,
+                         effectiveRadio: number = 4/3): number {
+
+    let pointXInKm = pointDistanceX/1000;
+    let elevationWithCurve = (0.07849 * (pointXInKm * (linkDistance - pointXInKm)))/effectiveRadio;
+    // console.log("linkDistance ", linkDistance)
+    // console.log("pointXInKm ", pointXInKm)
+    // console.log("pointElevation ", pointElevation)
+    console.log("elevationWithCurve ", elevationWithCurve)
+
+    return elevationWithCurve;
   }
 
   ngOnDestroy(): void {
