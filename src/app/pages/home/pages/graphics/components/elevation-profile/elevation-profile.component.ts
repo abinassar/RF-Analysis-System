@@ -421,18 +421,18 @@ export class ElevationProfileComponent implements OnDestroy {
   
       // Get point x and y for each position in map
   
-      for (let index = 0; index < elevationProfileData.length; index++) {
+      for (let index = 0; index <= elevationProfileData.length; index++) {
         
         this.elevationDataX.push(positionX);
 
         // Agrego la curvatura de la tierra a la elevacion del punto
 
         // this.elevationDataY.push(elevationProfileData[index]);
-        let elevationWithCurve = this.addCurvatureOfTheEarth(elevationProfileData[index],
+        let earthCurveHeight = this.addCurvatureOfTheEarth(elevationProfileData[index],
                                                              positionX,
                                                              response.linkDistance);
-        this.elevationDataY.push(elevationProfileData[index] + elevationWithCurve);
-        earthCurvePoints.push(elevationWithCurve);
+        this.elevationDataY.push(elevationProfileData[index] + earthCurveHeight);
+        earthCurvePoints.push(earthCurveHeight);
   
         positionX += distanceFraction;
       }
