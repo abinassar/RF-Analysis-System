@@ -421,7 +421,7 @@ export class ElevationProfileComponent implements OnDestroy {
   
       // Get point x and y for each position in map
   
-      for (let index = 0; index <= elevationProfileData.length; index++) {
+      for (let index = 0; index < elevationProfileData.length; index++) {
         
         this.elevationDataX.push(positionX);
 
@@ -707,27 +707,29 @@ export class ElevationProfileComponent implements OnDestroy {
     // Calculo de la primera zona de fresnel
 
     const fresnelPoints = this.createFresnelPoints(1,
-                                                fraction, 
-                                                rectDataX, 
-                                                rectDataY, 
-                                                P1x, 
-                                                P1y, 
-                                                distance1, 
-                                                distance2, 
-                                                angleCounterClkSenseTransferred, 
-                                                angleClkSenseTransferred,
-                                                Xfinal,
-                                                Yfinal,
-                                                Xinitial,
-                                                Yinitial,
-                                                fresnelDataX,
-                                                fresnelDataY,
-                                                fresnelInvertedDataX,
-                                                fresnelInvertedDataY,
-                                                mRect,
-                                                xFractioned,
-                                                distanceFraction);
+                                                    fraction, 
+                                                    rectDataX, 
+                                                    rectDataY, 
+                                                    P1x, 
+                                                    P1y, 
+                                                    distance1, 
+                                                    distance2, 
+                                                    angleCounterClkSenseTransferred, 
+                                                    angleClkSenseTransferred,
+                                                    Xfinal,
+                                                    Yfinal,
+                                                    Xinitial,
+                                                    Yinitial,
+                                                    fresnelDataX,
+                                                    fresnelDataY,
+                                                    fresnelInvertedDataX,
+                                                    fresnelInvertedDataY,
+                                                    mRect,
+                                                    xFractioned,
+                                                    distanceFraction);
 
+    console.log("fresnelPoints.fresnelDataX ", fresnelPoints.fresnelDataX)
+    console.log("fresnelPoints.fresnelDataY ", fresnelPoints.fresnelDataY)
     this.elevationData.data.push(
       {
         x: fresnelPoints.fresnelDataX,
@@ -769,7 +771,17 @@ export class ElevationProfileComponent implements OnDestroy {
         // name: 'zona de fresnel 60% superior',
         showlegend: false
       },
-    
+      // Principal link rect data
+      {
+        x: [Xinitial, Xfinal],
+        y: [Yinitial, Yfinal],
+        type: 'scatter',
+        line: {
+          color: '#4bb543'
+        },
+        // name: 'zona de fresnel 60% superior',
+        showlegend: false
+      },    
     );
 
     this.elevationData.data.push(
@@ -799,6 +811,29 @@ export class ElevationProfileComponent implements OnDestroy {
       },
     );
 
+    // Getting clearance
+
+    const maxElevationIndex = this.getMaxElevationIndex(this.elevationDataY);
+    let clearancePointsX = [];
+    let clearancePointsY = [];
+    clearancePointsX.push(this.elevationDataX[maxElevationIndex]);
+    clearancePointsX.push(this.elevationDataX[maxElevationIndex]);
+
+    clearancePointsY.push(this.elevationDataY[maxElevationIndex]);
+    clearancePointsY.push(fresnelPoints.fresnelDataY[maxElevationIndex] + fresnelPoints.fresnelRadioYPoints[maxElevationIndex]);
+
+    this.elevationData.data.push(
+      {
+        x: clearancePointsX,
+        y: clearancePointsY,
+        type: 'scatter',
+        line: {
+          color: '#0035d6'
+        },
+        // name: 'zona de fresnel inferior',
+        showlegend: false
+      }
+    )
     this.elevationGraph = true;
 
   }
@@ -830,6 +865,7 @@ export class ElevationProfileComponent implements OnDestroy {
 
     let fresnelData60PercentY: any = [];
     let fresnelInvertedData60PercentY: any = [];
+    let fresnelRadioYPoints = [];
 
     for (let index = 0; index <= fraction; index++) {
       
@@ -846,6 +882,8 @@ export class ElevationProfileComponent implements OnDestroy {
       if (radio < 0.00001) {
         radio = 0;
       }
+
+      fresnelRadioYPoints.push(radio);
 
       const fresnelPoint = this.getFresnelPoint(radio, 
                                                 P1x, 
@@ -983,7 +1021,8 @@ export class ElevationProfileComponent implements OnDestroy {
       fresnelData60PercentX,
       fresnelData60PercentY,
       fresnelInvertedData60PercentX,
-      fresnelInvertedData60PercentY
+      fresnelInvertedData60PercentY,
+      fresnelRadioYPoints
     }
 
     return fresnelPoints;
@@ -1053,6 +1092,14 @@ export class ElevationProfileComponent implements OnDestroy {
     console.log("elevationWithCurve ", elevationWithCurve)
 
     return elevationWithCurve;
+  }
+
+  getMaxElevationIndex(elevationsList: number[]): number {
+
+    const maximo = Math.max(...elevationsList);
+    const maxElevationIndex = elevationsList.indexOf(maximo);
+
+    return maxElevationIndex;
   }
 
   ngOnDestroy(): void {
