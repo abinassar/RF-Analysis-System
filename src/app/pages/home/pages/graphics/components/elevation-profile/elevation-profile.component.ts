@@ -835,7 +835,6 @@ export class ElevationProfileComponent implements OnDestroy {
       // In this case
       // The clearance exist
 
-      console.log("this.elevationDataX[maxElevationIndex] ", this.elevationDataX[maxElevationIndex]);
       clearancePointsX.push(this.elevationDataX[maxElevationIndex]);
       clearancePointsX.push(this.elevationDataX[maxElevationIndex]);
   
@@ -850,7 +849,7 @@ export class ElevationProfileComponent implements OnDestroy {
           line: {
             color: '#0035d6'
           },
-          // name: 'zona de fresnel inferior',
+          name: 'zona de fresnel inferior',
           showlegend: false
         }
       );
@@ -860,7 +859,7 @@ export class ElevationProfileComponent implements OnDestroy {
     } else {
 
       this.existClearance = false;
-      
+
     }
 
     // Check if there reflection points

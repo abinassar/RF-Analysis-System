@@ -234,12 +234,6 @@
         <ion-badge color="warning">DESPEJE</ion-badge>
           Recomendación: 
       </ion-card-title>
-      <ion-card-subtitle>
-
-        No existe despeje en el enlace, es recomendable evaluar la altura de las
-        antenas (aumentar altura) o la posición de las mismas.
-        
-      </ion-card-subtitle>
     </ion-card-header>
     <ion-grid>
   
@@ -248,8 +242,8 @@
           <h3>
             <!-- <ion-badge slot="start">N°{{i + 1}}:</ion-badge> -->
             <span>
-              Distancia: {{reflectionPointsX[1] / 1000 | truncate: 7}} Km (aprox.) ; 
-              Lat: {{reflectionPointCoord.lat | truncate: 10}} - Lng: {{reflectionPointCoord.lng | truncate: 10}}
+              No existe despeje en el enlace, es recomendable evaluar la altura de las
+              antenas (aumentar altura) o la posición de las mismas.            
             </span>
           </h3>
         </ion-col>
@@ -261,8 +255,8 @@
                    && reflectionPointsX.length > 0">
     <ion-card-header>
       <ion-card-title>
-        <ion-badge color="warning">IMPORTANTE</ion-badge>
-        Puntos de reflexión: 
+        <ion-badge color="warning">PUNTOS DE REFLEXIÓN</ion-badge>
+        Recomendación: 
       </ion-card-title>
       <ion-card-subtitle>
 
@@ -292,8 +286,8 @@
                    && obstructionFieldPoints.length > 0">
     <ion-card-header>
       <ion-card-title>
-        <ion-badge color="warning">IMPORTANTE</ion-badge>
-        Puntos de obstrucción: 
+        <ion-badge color="warning">PUNTOS DE OBSTRUCCIÓN</ion-badge>
+        Recomendación: 
       </ion-card-title>
       <ion-card-subtitle>
         Es importante que revises la configuracion del enlace, ya que existen puntos de obstruccion en 
