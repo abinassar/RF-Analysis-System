@@ -12,4 +12,6 @@ export const defaultPoints: GeoPoint = {
 export interface ElevationData {
     elevations: number[];
     linkDistance: number;
+    curveDistance: number;
+    reflectionDistance: number;
 }

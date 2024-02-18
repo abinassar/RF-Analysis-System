@@ -519,7 +519,9 @@ export class ElevationProfileComponent implements OnDestroy {
                             antenaOneHeight, 
                             this.elevationDataX[this.elevationData.data[0].x.length - 1], 
                             antenaTwoHeight,
-                            this.pointsFraction);
+                            this.pointsFraction,
+                            response.curveDistance,
+                            response.reflectionDistance);
 
       this.setObstructionPoints();
                                 
@@ -605,7 +607,9 @@ export class ElevationProfileComponent implements OnDestroy {
                     Yinitial: number, 
                     Xfinal: number, 
                     Yfinal: number,
-                    fraction: number = this.pointsFraction) {
+                    fraction: number = this.pointsFraction,
+                    curveDistance: number,
+                    reflectionDistance: number) {
 
                       console.log("lambda ", this.lambda)
                       console.log("fraction ", fraction)
@@ -728,8 +732,8 @@ export class ElevationProfileComponent implements OnDestroy {
                                                     xFractioned,
                                                     distanceFraction);
 
-    console.log("fresnelPoints.fresnelDataX ", fresnelPoints.fresnelDataX)
-    console.log("fresnelPoints.fresnelDataY ", fresnelPoints.fresnelDataY)
+    // console.log("fresnelPoints.fresnelDataX ", fresnelPoints.fresnelDataX)
+    // console.log("fresnelPoints.fresnelDataY ", fresnelPoints.fresnelDataY)
     this.elevationData.data.push(
       {
         x: fresnelPoints.fresnelDataX,
@@ -834,6 +838,13 @@ export class ElevationProfileComponent implements OnDestroy {
         showlegend: false
       }
     )
+
+    // Check if there reflection points
+
+    this.checkReflectionPoints(fresnelPoints.fresnelDataY,
+                               curveDistance,
+                               reflectionDistance);
+
     this.elevationGraph = true;
 
   }
@@ -1100,6 +1111,60 @@ export class ElevationProfileComponent implements OnDestroy {
     const maxElevationIndex = elevationsList.indexOf(maximo);
 
     return maxElevationIndex;
+  }
+
+  checkReflectionPoints(fresnelPointsY: any[],
+                        linkDistance: number,
+                        reflectionDistance: number) {
+
+    let distanceInMeters = linkDistance * 1000;
+    let reflectionDistanceInMeters = reflectionDistance * 1000;
+
+    console.log("distanceInMeters ", distanceInMeters)
+    console.log("reflectionDistanceInMeters ", reflectionDistanceInMeters)
+
+    if (distanceInMeters > reflectionDistanceInMeters) {
+
+      // I am looking for a point near 
+      // the reflection point in the x elevation data
+
+      let reflectionPointIndex = this.elevationDataX.findIndex((point) => {
+        return (point - 10) <= reflectionDistanceInMeters
+               && (point + 10) >= reflectionDistanceInMeters
+      });
+
+      console.log("reflectionPointIndex ", reflectionPointIndex);
+
+      let reflectionPointsX = [];
+
+      reflectionPointsX.push(this.elevationDataX[0]);
+      reflectionPointsX.push(this.elevationDataX[reflectionPointIndex]);
+      reflectionPointsX.push(this.elevationDataX[this.elevationDataX.length - 1]);
+
+      let reflectionPointsY = [];
+
+      reflectionPointsY.push(fresnelPointsY[0]);
+      reflectionPointsY.push(this.elevationDataY[reflectionPointIndex]);
+      reflectionPointsY.push(fresnelPointsY[fresnelPointsY.length - 1]);
+
+      // Add points to the elevation graphic
+
+      this.elevationData.data.push(
+        {
+          x: reflectionPointsX,
+          y: reflectionPointsY,
+          type: 'scatter',
+          line: {
+            color: '#ff0000'
+          },
+          // name: 'zona de fresnel inferior',
+          showlegend: false
+        }      
+      );
+
+      
+    }
+
   }
 
   ngOnDestroy(): void {
