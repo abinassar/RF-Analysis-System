@@ -60,6 +60,11 @@ export class ElevationProfileComponent implements OnDestroy {
   obstruction60PercentPointsY: number[] = [];
   obstruction60PercentPointsInvertedY: number[] = [];
 
+  // Variables para puntos de reflexion
+
+  reflectionPointsX: number[] = [];
+  reflectionPointsY: number[] = [];
+
   pointsFraction: number = 1000;
 
   settingsForm!: FormGroup;
@@ -1120,9 +1125,6 @@ export class ElevationProfileComponent implements OnDestroy {
     let distanceInMeters = linkDistance * 1000;
     let reflectionDistanceInMeters = reflectionDistance * 1000;
 
-    console.log("distanceInMeters ", distanceInMeters)
-    console.log("reflectionDistanceInMeters ", reflectionDistanceInMeters)
-
     if (distanceInMeters > reflectionDistanceInMeters) {
 
       // I am looking for a point near 
@@ -1133,26 +1135,24 @@ export class ElevationProfileComponent implements OnDestroy {
                && (point + 10) >= reflectionDistanceInMeters
       });
 
-      console.log("reflectionPointIndex ", reflectionPointIndex);
+      this.reflectionPointsX = [];
 
-      let reflectionPointsX = [];
+      this.reflectionPointsX.push(this.elevationDataX[0]);
+      this.reflectionPointsX.push(this.elevationDataX[reflectionPointIndex]);
+      this.reflectionPointsX.push(this.elevationDataX[this.elevationDataX.length - 1]);
 
-      reflectionPointsX.push(this.elevationDataX[0]);
-      reflectionPointsX.push(this.elevationDataX[reflectionPointIndex]);
-      reflectionPointsX.push(this.elevationDataX[this.elevationDataX.length - 1]);
+      this.reflectionPointsY = [];
 
-      let reflectionPointsY = [];
-
-      reflectionPointsY.push(fresnelPointsY[0]);
-      reflectionPointsY.push(this.elevationDataY[reflectionPointIndex]);
-      reflectionPointsY.push(fresnelPointsY[fresnelPointsY.length - 1]);
+      this.reflectionPointsY.push(fresnelPointsY[0]);
+      this.reflectionPointsY.push(this.elevationDataY[reflectionPointIndex]);
+      this.reflectionPointsY.push(fresnelPointsY[fresnelPointsY.length - 1]);
 
       // Add points to the elevation graphic
 
       this.elevationData.data.push(
         {
-          x: reflectionPointsX,
-          y: reflectionPointsY,
+          x: this.reflectionPointsX,
+          y: this.reflectionPointsY,
           type: 'scatter',
           line: {
             color: '#ff0000'

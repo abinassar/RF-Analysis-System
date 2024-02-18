@@ -228,6 +228,37 @@
   </ion-card>
 
   <ion-card *ngIf="elevationGraph
+                   && reflectionPointsX.length > 0">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-badge color="warning">IMPORTANTE</ion-badge>
+        Puntos de reflexión: 
+      </ion-card-title>
+      <ion-card-subtitle>
+
+        Debes prestar atención a los posibles puntos de reflexión 
+        a lo largo del enlace, ya que pueden aportar ganacias constructivas
+        o destructivas a la antena receptora.
+        
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-grid>
+  
+      <ion-row class="ion-padding pt-0px">
+        <ion-col>
+          <h3>
+            <!-- <ion-badge slot="start">N°{{i + 1}}:</ion-badge> -->
+            <span>
+              Distancia: {{reflectionPointsX[1] / 1000 | truncate: 7}} Km (aprox.) ; 
+              <!-- Lat: {{obstructionPoint.lat | truncate: 10}} - Lng: {{obstructionPoint.lng | truncate: 10}} -->
+            </span>
+          </h3>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+
+  <ion-card *ngIf="elevationGraph
                    && obstructionFieldPoints.length > 0">
     <ion-card-header>
       <ion-card-title>
