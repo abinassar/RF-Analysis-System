@@ -64,6 +64,7 @@ export class ElevationProfileComponent implements OnDestroy {
 
   reflectionPointsX: number[] = [];
   reflectionPointsY: number[] = [];
+  reflectionPointCoord: any;
 
   pointsFraction: number = 1000;
 
@@ -1134,6 +1135,23 @@ export class ElevationProfileComponent implements OnDestroy {
         return (point - 10) <= reflectionDistanceInMeters
                && (point + 10) >= reflectionDistanceInMeters
       });
+
+      let bearing = this.getBearingRobot(this.settingsService.linkSettings.P1.lat,
+                                         this.settingsService.linkSettings.P1.lng,
+                                         this.settingsService.linkSettings.P2.lat,
+                                         this.settingsService.linkSettings.P2.lng);
+
+      // Getting coordinates of the reflection point
+
+      let reflectionPointCoordinates = this.getDestinationLatLong(this.settingsService.linkSettings.P1.lat,
+                                                             this.settingsService.linkSettings.P1.lng,
+                                                             bearing,
+                                                             this.elevationDataX[reflectionPointIndex]);
+
+      this.reflectionPointCoord = {
+        lat: reflectionPointCoordinates[0],
+        lng: reflectionPointCoordinates[1]
+      }
 
       this.reflectionPointsX = [];
 
