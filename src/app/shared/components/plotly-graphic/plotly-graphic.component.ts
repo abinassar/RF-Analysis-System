@@ -11,7 +11,7 @@ import * as PlotlyJS from 'plotly.js-dist-min';
 })
 export class PlotlyGraphicComponent implements OnInit, OnChanges {
 
-  data: any;
+  data: any[];
   layout: any;
   show3dGraph: boolean = false;
 
@@ -34,9 +34,15 @@ export class PlotlyGraphicComponent implements OnInit, OnChanges {
 
       this.data = changes['inputData'].currentValue;
       this.layout = changes['inputLayout'].currentValue;
+
+      console.log("this.data ", this.data)
       
     }
 
+  }
+
+  deleteTrace() {
+    this.data.pop();
   }
 
   landscapeOrientation() {

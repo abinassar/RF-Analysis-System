@@ -87,6 +87,7 @@ export class ElevationProfileComponent implements OnDestroy {
   };
   selectedFrecuency: string[] = [];
   frecuencies: Frecuency[] = frecuenciesLicensed;
+  existClearance: boolean = false;
 
   constructor(public settingsService: SettingsService,
               private locationService: LocationService,
@@ -826,24 +827,41 @@ export class ElevationProfileComponent implements OnDestroy {
     const maxElevationIndex = this.getMaxElevationIndex(this.elevationDataY);
     let clearancePointsX = [];
     let clearancePointsY = [];
-    clearancePointsX.push(this.elevationDataX[maxElevationIndex]);
-    clearancePointsX.push(this.elevationDataX[maxElevationIndex]);
 
-    clearancePointsY.push(this.elevationDataY[maxElevationIndex]);
-    clearancePointsY.push(fresnelPoints.fresnelDataY[maxElevationIndex] + fresnelPoints.fresnelRadioYPoints[maxElevationIndex]);
+    // Check if the clearance exist
 
-    this.elevationData.data.push(
-      {
-        x: clearancePointsX,
-        y: clearancePointsY,
-        type: 'scatter',
-        line: {
-          color: '#0035d6'
-        },
-        // name: 'zona de fresnel inferior',
-        showlegend: false
-      }
-    )
+    if (fresnelPoints.fresnelDataY[maxElevationIndex] > this.elevationDataY[maxElevationIndex]) {
+
+      // In this case
+      // The clearance exist
+
+      console.log("this.elevationDataX[maxElevationIndex] ", this.elevationDataX[maxElevationIndex]);
+      clearancePointsX.push(this.elevationDataX[maxElevationIndex]);
+      clearancePointsX.push(this.elevationDataX[maxElevationIndex]);
+  
+      clearancePointsY.push(this.elevationDataY[maxElevationIndex]);
+      clearancePointsY.push(fresnelPoints.fresnelDataY[maxElevationIndex] + fresnelPoints.fresnelRadioYPoints[maxElevationIndex]);
+  
+      this.elevationData.data.push(
+        {
+          x: clearancePointsX,
+          y: clearancePointsY,
+          type: 'scatter',
+          line: {
+            color: '#0035d6'
+          },
+          // name: 'zona de fresnel inferior',
+          showlegend: false
+        }
+      );
+
+      this.existClearance = true;
+        
+    } else {
+
+      this.existClearance = false;
+      
+    }
 
     // Check if there reflection points
 
