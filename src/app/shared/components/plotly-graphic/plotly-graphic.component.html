@@ -1,7 +1,22 @@
 
-<button (click)="deleteTrace()">
-     deleteTrace()
-</button>
+
+<div fxLayout="row"
+     fxLayoutGap="10px">
+
+     <h3>
+          Filtros del gráfico
+     </h3>
+
+     <ion-button *ngFor="let trace of defaultTraceData; let i=index" 
+                 (click)="showTrace(trace.name)">
+          {{trace.name}}
+     </ion-button>
+
+     <ion-button (click)="showAllTraces()">
+          Todas
+     </ion-button>
+
+</div>
 
 <div class="plot-container">
   <plotly-plot [data]="data" 

@@ -12,6 +12,8 @@ import * as PlotlyJS from 'plotly.js-dist-min';
 export class PlotlyGraphicComponent implements OnInit, OnChanges {
 
   data: any[];
+  defaultTraceData: any[] = [];
+  defaultData: any[] = [];
   layout: any;
   show3dGraph: boolean = false;
 
@@ -33,12 +35,22 @@ export class PlotlyGraphicComponent implements OnInit, OnChanges {
     if (changes) {
 
       this.data = changes['inputData'].currentValue;
+      this.defaultData = changes['inputData'].currentValue;
+      this.defaultTraceData = changes['inputData'].currentValue.filter((data) => data.name !== 'Puntos de elevacion');
       this.layout = changes['inputLayout'].currentValue;
 
-      console.log("this.data ", this.data)
-      
+      console.log("data ", this.data)
     }
 
+  }
+
+  showTrace(traceName: string) {
+    let dataFiltered = this.defaultData.filter((trace) => trace.name === traceName || trace.name === 'Puntos de elevacion');
+    this.data = dataFiltered;
+  }
+
+  showAllTraces() {
+    this.data = this.defaultData.slice();
   }
 
   deleteTrace() {

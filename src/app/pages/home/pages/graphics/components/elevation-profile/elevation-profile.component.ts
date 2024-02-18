@@ -472,7 +472,8 @@ export class ElevationProfileComponent implements OnDestroy {
             marker: {
               size: 2
             },
-            showlegend: false
+            showlegend: false,
+            name: 'Puntos de elevacion'
           },
         ],
         layout: {
@@ -508,7 +509,7 @@ export class ElevationProfileComponent implements OnDestroy {
           line: {
             color: '#00aa03'
           },
-          // name: 'zona de fresnel inferior',
+          name: 'Curvatura de la Tierra',
           showlegend: false
         }      
       );
@@ -749,7 +750,7 @@ export class ElevationProfileComponent implements OnDestroy {
         line: {
           color: '#17BECF'
         },
-        // name: 'zona de fresnel inferior',
+        name: 'Zona de Fresnel Inferior',
         showlegend: false
       },
       {
@@ -759,7 +760,7 @@ export class ElevationProfileComponent implements OnDestroy {
         line: {
           color: '#17BECF'
         },
-        // name: 'zona de fresnel superior',
+        name: 'Zona de Fresnel Superior',
         showlegend: false
       },
       {
@@ -769,7 +770,7 @@ export class ElevationProfileComponent implements OnDestroy {
         line: {
           color: '#9a37c4'
         },
-        // name: 'zona de fresnel 60% inferior',
+        name: 'Zona de Fresnel 60% Inferior',
         showlegend: false
       },
       {
@@ -779,7 +780,7 @@ export class ElevationProfileComponent implements OnDestroy {
         line: {
           color: '#9a37c4'
         },
-        // name: 'zona de fresnel 60% superior',
+        name: 'Zona de Fresnel 60% Superior',
         showlegend: false
       },
       // Principal link rect data
@@ -790,7 +791,7 @@ export class ElevationProfileComponent implements OnDestroy {
         line: {
           color: '#4bb543'
         },
-        // name: 'zona de fresnel 60% superior',
+        name: 'Linea de enlace principal',
         showlegend: false
       },    
     );
@@ -805,7 +806,7 @@ export class ElevationProfileComponent implements OnDestroy {
         line: {
           color: '#d91313'
         },
-        // name: 'puntos de obstruccion inferior'
+        name: 'puntos de obstruccion inferior',
         showlegend: false
       },
       {
@@ -817,7 +818,7 @@ export class ElevationProfileComponent implements OnDestroy {
         line: {
           color: '#d91313'
         },
-        // name: 'puntos de obstruccion superior'
+        name: 'puntos de obstruccion superior',
         showlegend: false
       },
     );
@@ -849,7 +850,7 @@ export class ElevationProfileComponent implements OnDestroy {
           line: {
             color: '#0035d6'
           },
-          name: 'zona de fresnel inferior',
+          name: 'Despeje',
           showlegend: false
         }
       );
@@ -1123,7 +1124,7 @@ export class ElevationProfileComponent implements OnDestroy {
     // console.log("linkDistance ", linkDistance)
     // console.log("pointXInKm ", pointXInKm)
     // console.log("pointElevation ", pointElevation)
-    console.log("elevationWithCurve ", elevationWithCurve)
+    // console.log("elevationWithCurve ", elevationWithCurve)
 
     return elevationWithCurve;
   }
@@ -1192,7 +1193,7 @@ export class ElevationProfileComponent implements OnDestroy {
           line: {
             color: '#ff0000'
           },
-          // name: 'zona de fresnel inferior',
+          name: 'Punto de reflexión',
           showlegend: false
         }      
       );
