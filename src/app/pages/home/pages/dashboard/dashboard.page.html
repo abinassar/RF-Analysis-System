@@ -13,30 +13,82 @@
 
   <ion-card-header>
     <ion-card-title>
-      Bienvenido!
+      <h1>
+        Bienvenido!
+      </h1>
     </ion-card-title>
   </ion-card-header>
 
   <ion-card [formGroup]="linksForm"
             *ngIf="showLinkForm">
 
+    <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
     <ion-card-header>
       <ion-card-title>
-        Estos son tus enlaces:
+
+        <ion-row class="ion-align-items-center">
+
+          <ion-col>
+            Estos son tus enlaces:
+          </ion-col>
+
+          <ion-col>
+
+            <ion-select placeholder="Enlaces" 
+                        formControlName="linkSelected"
+                        (ionChange)="onSelectionChange($event)">
+              <ion-select-option *ngFor="let link of settingsService.linkSettingsList" 
+                                  value="{{link.linkName}}">{{link.linkName}}</ion-select-option>
+            </ion-select>
+
+
+          </ion-col>
+
+        </ion-row>
+        
       </ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
 
-      <ion-select placeholder="Enlaces" 
-                  formControlName="linkSelected"
-                  (ionChange)="onSelectionChange($event)">
-        <ion-select-option *ngFor="let link of settingsService.linkSettingsList" 
-                            value="{{link.linkName}}">{{link.linkName}}</ion-select-option>
-      </ion-select>
+      <div class="link-features-container">
+
+        <h2>
+          Características del enlace
+        </h2>
+
+        <ion-row>
+
+          <ion-col>
+            Antena seleccionada: {{settingsService.linkSettings.antennaSelected.name}}
+          </ion-col>
+
+        </ion-row>
+
+        <ion-row>
+
+          <ion-col>
+            Frecuencia de operacion: {{settingsService.linkSettings.antennaSelected.frecuency}}
+          </ion-col>
+
+          <ion-col>
+            Ganancia de la antena: {{settingsService.linkSettings.antennaSelected.txAntennaGain}}
+          </ion-col>
+
+        </ion-row>
+
+        <ion-row>
+
+          <ion-col>
+            Pérdida de espacio libre: {{settingsService.linkSettings.antennaSelected.freeSpaceLoss}}
+          </ion-col>
+          
+        </ion-row>
+
+      </div>
+
     </ion-card-content>
     
-
   </ion-card>
 
   <ion-card>

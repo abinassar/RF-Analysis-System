@@ -32,6 +32,7 @@ export class DashboardPage implements OnInit {
 
           const linksSettings: LinkSettings[] = response.linkSettings;
 
+          console.log("linksSettings ", linksSettings)
           this.alertService.closeLoading();
 
           this.settingsService.linkSettingsList = linksSettings;
