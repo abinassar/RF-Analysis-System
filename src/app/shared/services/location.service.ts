@@ -16,12 +16,15 @@ export class LocationService {
 
   constructor(private dataService: DataService) { }
 
-  getElevationProfile(startPoint: GeoPoint, endPoint: GeoPoint): Observable<ElevationData> {
-    console.log("startPoint ", startPoint)
-    console.log("endPoint ", endPoint)
+  getElevationProfile(startPoint: GeoPoint, 
+                      endPoint: GeoPoint,
+                      antennaInitialHeight: number,
+                      antennaFinalHeight: number): Observable<ElevationData> {
     return this.dataService.post(this.uri + "/elevation_profile", {
       "start_point": startPoint,
-      "end_point": endPoint
+      "end_point": endPoint,
+      "antenna_1_height": antennaInitialHeight,
+      "antenna_2_height": antennaFinalHeight
     })
   }
 

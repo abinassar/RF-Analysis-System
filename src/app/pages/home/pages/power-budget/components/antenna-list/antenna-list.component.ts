@@ -89,7 +89,8 @@ export class AntennaListComponent implements OnInit {
       temperature: this.settingsService.linkSettings.temperature,
       waterDensity: this.settingsService.linkSettings.waterDensity,
       linkName: this.settingsService.linkSettings.linkName,
-      selected: true
+      selected: true,
+      kFactor: this.settingsService.linkSettings.kFactor
     }
 
     this.settingsService

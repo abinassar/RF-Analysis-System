@@ -151,7 +151,8 @@ export class AtenuationWaterVaporGraphComponent {
         temperature: this.atmosphericForm.get("temperature").value,
         waterDensity: this.atmosphericForm.get("waterDensity").value,
         linkName: this.settingsService.linkSettings.linkName,
-        selected: true
+        selected: true,
+        kFactor: this.settingsService.linkSettings.kFactor
       }
 
       const linksList: LinkSettings[] = this.settingsService.linkSettingsList.slice();

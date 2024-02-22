@@ -14,4 +14,12 @@ export interface ElevationData {
     linkDistance: number;
     curveDistance: number;
     reflectionDistance: number;
+    azimuthAntenna1: Azimuth;
+    azimuthAntenna2: Azimuth;
+}
+
+export interface Azimuth {
+    azimuth: number;
+    distance: number;
+    elevation: number;
 }

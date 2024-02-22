@@ -192,6 +192,7 @@
                           [insideComponent]="true"
                           [startPoint]="P1"
                           [endPoint]="P2"
+                          [showElevationProfileFilters]="true"
                           (showFullScreenGraphic)="showFullScreenGraphic()">
 
       </app-plotly-graphic>
@@ -225,6 +226,36 @@
       </ion-card-content>      
     </ng-template>
 
+  </ion-card>
+
+  <ion-card *ngIf="initialAntennaAzimuth !== 0">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-badge color="primary">Azimuth antenas</ion-badge>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-grid>
+  
+      <ion-row class="ion-padding pt-0px">
+        <ion-col>
+          <h2>
+            Antena 1:
+            <span>
+              {{initialAntennaAzimuth}}°
+            </span>
+          </h2>
+        </ion-col>
+        <ion-col>
+          <h2>
+            Antena 2:
+            <span>
+              {{finalAntennaAzimuth}}°
+            </span>
+          </h2>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
   </ion-card>
 
   <ion-card *ngIf="elevationGraph

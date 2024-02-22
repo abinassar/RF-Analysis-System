@@ -88,6 +88,8 @@ export class ElevationProfileComponent implements OnDestroy {
   selectedFrecuency: string[] = [];
   frecuencies: Frecuency[] = frecuenciesLicensed;
   existClearance: boolean = false;
+  initialAntennaAzimuth: number = 0;
+  finalAntennaAzimuth: number = 0;
 
   constructor(public settingsService: SettingsService,
               private locationService: LocationService,
@@ -215,7 +217,8 @@ export class ElevationProfileComponent implements OnDestroy {
       finalLng: this.formBuilder.control(this.settingsService.linkSettings.P2.lng === 0 ? null : this.settingsService.linkSettings.P2.lng, Validators.required),
       antennaInitialHeight: this.formBuilder.control(this.settingsService.linkSettings.antennaOneHeight === 0 ? null : this.settingsService.linkSettings.antennaOneHeight, Validators.required),
       antennaFinalHeight: this.formBuilder.control(this.settingsService.linkSettings.antennaTwoHeight === 0 ? null : this.settingsService.linkSettings.antennaTwoHeight, Validators.required),
-      frecuency: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.frecuency === 0 ? null : this.settingsService.linkSettings.antennaSelected.frecuency, Validators.required)
+      frecuency: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.frecuency === 0 ? null : this.settingsService.linkSettings.antennaSelected.frecuency, Validators.required),
+      kFactor: this.formBuilder.control(this.settingsService.linkSettings.kFactor === 0 ? null : this.settingsService.linkSettings.kFactor, Validators.required)
     });
 
   };
@@ -236,7 +239,8 @@ export class ElevationProfileComponent implements OnDestroy {
         temperature: this.settingsService.linkSettings.temperature,
         waterDensity: this.settingsService.linkSettings.waterDensity,
         linkName: this.settingsService.linkSettings.linkName,
-        selected: true
+        selected: true,
+        kFactor: this.settingsForm?.get("kFactor")?.value
       }
 
       const linksList: LinkSettings[] = this.settingsService.linkSettingsList.slice();
@@ -406,8 +410,13 @@ export class ElevationProfileComponent implements OnDestroy {
 
     this.locationService
         .getElevationProfile(initialPoint, 
-                             finalPoint)
+                             finalPoint,
+                             this.settingsForm.get('antennaInitialHeight').value,
+                             this.settingsForm.get('antennaFinalHeight').value)
         .subscribe((response) => {
+
+      this.initialAntennaAzimuth = response.azimuthAntenna1.azimuth;
+      this.finalAntennaAzimuth = response.azimuthAntenna2.azimuth;
 
       // Reset the elevation points
       // data arrays
@@ -419,8 +428,6 @@ export class ElevationProfileComponent implements OnDestroy {
 
       let distanceFraction = response.linkDistance*1000/this.pointsFraction;
       let positionX = 0;
-
-      console.log("distanceFraction: ", distanceFraction)
 
       let elevationProfileData = response.elevations;
       this.settingsService.linkDistance = response.linkDistance;
@@ -770,7 +777,7 @@ export class ElevationProfileComponent implements OnDestroy {
         line: {
           color: '#9a37c4'
         },
-        name: 'Zona de Fresnel 60% Inferior',
+        name: 'Primera Zona de Fresnel Inferior',
         showlegend: false
       },
       {
@@ -780,7 +787,7 @@ export class ElevationProfileComponent implements OnDestroy {
         line: {
           color: '#9a37c4'
         },
-        name: 'Zona de Fresnel 60% Superior',
+        name: 'Primera Zona de Fresnel Superior',
         showlegend: false
       },
       // Principal link rect data
@@ -1117,14 +1124,10 @@ export class ElevationProfileComponent implements OnDestroy {
   addCurvatureOfTheEarth(pointElevation: number,
                          pointDistanceX: number,
                          linkDistance: number,
-                         effectiveRadio: number = 4/3): number {
+                         kFactor: number = 4/3): number {
 
     let pointXInKm = pointDistanceX/1000;
-    let elevationWithCurve = (0.07849 * (pointXInKm * (linkDistance - pointXInKm)))/effectiveRadio;
-    // console.log("linkDistance ", linkDistance)
-    // console.log("pointXInKm ", pointXInKm)
-    // console.log("pointElevation ", pointElevation)
-    // console.log("elevationWithCurve ", elevationWithCurve)
+    let elevationWithCurve = (0.07849 * (pointXInKm * (linkDistance - pointXInKm)))/kFactor;
 
     return elevationWithCurve;
   }

@@ -22,6 +22,7 @@ export class PlotlyGraphicComponent implements OnInit, OnChanges {
   @Input() insideComponent: boolean = false;
   @Input() startPoint: GeoPoint;
   @Input() endPoint: GeoPoint;
+  @Input() showElevationProfileFilters: boolean = false;
   @Output() showFullScreenGraphic = new EventEmitter<void>();
 
   constructor(private screenOrientation: ScreenOrientation,
@@ -35,12 +36,36 @@ export class PlotlyGraphicComponent implements OnInit, OnChanges {
     if (changes) {
 
       this.data = changes['inputData'].currentValue;
-      this.defaultData = changes['inputData'].currentValue;
-      this.defaultTraceData = changes['inputData'].currentValue.filter((data) => data.name !== 'Puntos de elevacion');
+
+      if (this.showElevationProfileFilters) {
+
+        this.setElevationProfileFilters(changes);
+
+      }
+
       this.layout = changes['inputLayout'].currentValue;
 
-      console.log("data ", this.data)
     }
+
+  }
+
+  setElevationProfileFilters(changes: SimpleChanges) {
+
+    const defaultData = changes['inputData'].currentValue;
+    const defaultTraceData = changes['inputData'].currentValue.filter((data) => data.name !== 'Puntos de elevacion');
+    const firstFresnelTraceData = changes['inputData'].currentValue.filter((data) => data.name !== 'Puntos de elevacion');
+
+    // TODO: Improve this buttons
+    let filterButtons = [];
+
+    this.defaultTraceData.forEach((layout) => {
+
+      let fresnel60PercentPoints
+
+    })
+
+    this.defaultData = changes['inputData'].currentValue;
+    this.defaultTraceData = changes['inputData'].currentValue.filter((data) => data.name !== 'Puntos de elevacion');
 
   }
 

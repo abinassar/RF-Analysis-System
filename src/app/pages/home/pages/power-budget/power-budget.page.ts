@@ -318,7 +318,8 @@ export class PowerBudgetPage {
         temperature: this.settingsService.linkSettings.temperature,
         waterDensity: this.settingsService.linkSettings.waterDensity,
         linkName: this.settingsService.linkSettings.linkName,
-        selected: true
+        selected: true,
+        kFactor: this.settingsService.linkSettings.kFactor
       }
 
       const linksList: LinkSettings[] = this.settingsService.linkSettingsList.slice();

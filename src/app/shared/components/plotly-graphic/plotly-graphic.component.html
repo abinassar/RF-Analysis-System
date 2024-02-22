@@ -1,10 +1,12 @@
 
 
 <div fxLayout="row"
-     fxLayoutGap="10px">
+     fxLayoutGap="10px"
+     class="ion-padding"
+     *ngIf="showElevationProfileFilters">
 
      <h3>
-          Filtros del gráfico
+          Filtros
      </h3>
 
      <ion-button *ngFor="let trace of defaultTraceData; let i=index" 

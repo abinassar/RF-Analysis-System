@@ -44,6 +44,7 @@ export interface LinkSettings {
     antennaSelected: AntennaSelected;
     linkName: string;
     selected: boolean;
+    kFactor: number;
 }
 
 export const defaultLinkSettings: LinkSettings = {
@@ -56,7 +57,8 @@ export const defaultLinkSettings: LinkSettings = {
     waterDensity: 0,
     antennaSelected: defaultAntenna,
     linkName: "Mi primer enlace",
-    selected: true
+    selected: true,
+    kFactor: 1.33,
 }
 
 export const antennasList: Antenna[] = [
