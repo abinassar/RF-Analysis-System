@@ -218,7 +218,7 @@ export class ElevationProfileComponent implements OnDestroy {
       antennaInitialHeight: this.formBuilder.control(this.settingsService.linkSettings.antennaOneHeight === 0 ? null : this.settingsService.linkSettings.antennaOneHeight, Validators.required),
       antennaFinalHeight: this.formBuilder.control(this.settingsService.linkSettings.antennaTwoHeight === 0 ? null : this.settingsService.linkSettings.antennaTwoHeight, Validators.required),
       frecuency: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.frecuency === 0 ? null : this.settingsService.linkSettings.antennaSelected.frecuency, Validators.required),
-      kFactor: this.formBuilder.control(this.settingsService.linkSettings.kFactor === 0 ? null : this.settingsService.linkSettings.kFactor, Validators.required)
+      kFactor: this.formBuilder.control(this.settingsService.linkSettings.kFactor === 0 ? 1.33 : this.settingsService.linkSettings.kFactor, Validators.required)
     });
 
   };
@@ -275,6 +275,17 @@ export class ElevationProfileComponent implements OnDestroy {
   }
   
   generateElevationGraph() {
+
+    const kFactor = this.settingsForm.get('kFactor').value;
+
+    if (kFactor === 0
+        || kFactor < 0) {
+      
+      this.alertService
+          .presentAlert("Factor K", 
+                        "El factor K debe ser mayor a 0");
+      return;
+    }
 
     if (this.settingsForm.valid) {
 
@@ -443,8 +454,9 @@ export class ElevationProfileComponent implements OnDestroy {
 
         // this.elevationDataY.push(elevationProfileData[index]);
         let earthCurveHeight = this.addCurvatureOfTheEarth(elevationProfileData[index],
-                                                             positionX,
-                                                             response.linkDistance);
+                                                           positionX,
+                                                           response.linkDistance,
+                                                           this.settingsForm.get('kFactor').value);
         this.elevationDataY.push(elevationProfileData[index] + earthCurveHeight);
         earthCurvePoints.push(earthCurveHeight);
   

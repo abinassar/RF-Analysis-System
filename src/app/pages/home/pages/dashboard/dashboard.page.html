@@ -49,17 +49,48 @@
 
     <ion-card-content>
 
-      <ion-button (click)="navToProfileGraph()">
-        Perfil de elevación
-      </ion-button>
+      <ion-row>
+        <ion-col size="12">
+          <ion-button (click)="navToProfileGraph()"
+                      expand="full">
 
-      <ion-button (click)="navToAtenuationGraph()">
-        Atenuacion en Aire Seco
-      </ion-button>
+            <ion-icon slot="start" name="bar-chart"></ion-icon>
 
-      <ion-button (click)="navToAtenuationVaporGraph()">
-        Atenuacion debido a Vapor de Agua
-      </ion-button>
+            Perfil de elevación
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-button (click)="navToProfileGraph()"
+                      expand="full">
+            <ion-icon slot="start" name="sunny"></ion-icon>
+            Atenuacion en Aire Seco
+
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-button (click)="navToProfileGraph()"
+                      expand="full">
+            <ion-icon slot="start" name="water"></ion-icon>
+            Atenuacion debido a Vapor de Agua
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-button (click)="navToPowerBudget()"
+                      expand="full">
+            <ion-icon slot="start" name="power"></ion-icon>
+            Balance de Potencia
+          </ion-button>
+        </ion-col>
+      </ion-row>
 
     </ion-card-content>
 

@@ -84,6 +84,14 @@ export class DashboardPage implements OnInit {
 
   }
 
+  navToPowerBudget() {
+
+    setTimeout(() => {      
+      this.router.navigate(['/home/power-budget']);
+    }, 100);
+
+  }
+
   navigateToSign() {
 
     let randomSecond = Math.random();
