@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { LoadingController, ModalController } from '@ionic/angular';
-import { Frecuency, GeoPoint, LinkSettings, defaultLinkSettings, defaultPoints, frecuenciesLicensed, frecuencyUnit } from '@shared/models';
+import { Frecuency, GeoPoint, LinkSettings, defaultLinkSettings, defaultPoints, frecuenciesLicensed, frecuenciesUnits, FrecuencyUnit } from '@shared/models';
 import { AlertService, LocationService, SettingsService } from '@shared/services';
 import { HomeService } from 'src/app/pages/home/home.service';
 import jwt_decode from 'jwt-decode';
@@ -21,11 +21,7 @@ export class AtenuationGraphComponent {
   atenuationDataY: number[] = [];
   atenuationGraph: boolean = false;
   showMap: boolean = false;
-  frecuenciesUnits: frecuencyUnit[] = [
-    frecuencyUnit.HZ,
-    frecuencyUnit.MHZ,
-    frecuencyUnit.GHZ
-  ];
+  frecuenciesUnits = frecuenciesUnits;
   atenuationForm: FormGroup;
   atmosphericForm: FormGroup;
   showForm: boolean = false;
@@ -122,7 +118,7 @@ export class AtenuationGraphComponent {
 
     this.atenuationForm = this.formBuilder.group({
       frecuency: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.frecuency === 0 ? null : this.settingsService.linkSettings.antennaSelected.frecuency, Validators.required),
-      frecuencyUnit: this.formBuilder.control(frecuencyUnit.GHZ, Validators.required),
+      frecuencyUnit: this.formBuilder.control(FrecuencyUnit.GHZ, Validators.required),
     });
 
     this.atmosphericForm = this.formBuilder.group({
@@ -221,13 +217,13 @@ export class AtenuationGraphComponent {
 
   // Convert the frecuency selected to GHZ unity
 
-  calcFrecuency(frecuency: number, unit: frecuencyUnit): number {
+  calcFrecuency(frecuency: number, unit: FrecuencyUnit): number {
 
     let frecuencyResult = frecuency;
 
-    if (unit === frecuencyUnit.MHZ) {
+    if (unit === FrecuencyUnit.MHZ) {
       frecuencyResult = frecuencyResult / 1000;
-    } else if (unit === frecuencyUnit.HZ) {
+    } else if (unit === FrecuencyUnit.HZ) {
       frecuencyResult = frecuencyResult / 1000000000;
     }
 

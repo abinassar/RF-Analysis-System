@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { LinkSettingsComponent } from '@shared/components/link-settings/link-settings.component';
-import { Frecuency, GeoPoint, LinkSettings, defaultLinkSettings, defaultPoints, frecuenciesLicensed, frecuencyUnit } from '@shared/models';
+import { Frecuency, FrecuencyUnit, GeoPoint, LinkSettings, defaultLinkSettings, defaultPoints, frecuenciesLicensed, frecuenciesUnits } from '@shared/models';
 import { AlertService, LocationService, SettingsService } from '@shared/services';
 import { HomeService } from 'src/app/pages/home/home.service';
 
@@ -19,11 +19,7 @@ export class AtenuationWaterVaporGraphComponent {
   atenuationDataX: number[] = [];
   atenuationDataY: number[] = [];
   atenuationGraph: boolean = false;
-  frecuenciesUnits: frecuencyUnit[] = [
-    frecuencyUnit.HZ,
-    frecuencyUnit.MHZ,
-    frecuencyUnit.GHZ
-  ];
+  frecuenciesUnits = frecuenciesUnits;
   atenuationForm: FormGroup;
   atmosphericForm: FormGroup;
   showForm: boolean = false;
@@ -122,7 +118,7 @@ export class AtenuationWaterVaporGraphComponent {
 
     this.atenuationForm = this.formBuilder.group({
       frecuency: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.frecuency === 0 ? null : this.settingsService.linkSettings.antennaSelected.frecuency, Validators.required),
-      frecuencyUnit: this.formBuilder.control(frecuencyUnit.GHZ, Validators.required),
+      frecuencyUnit: this.formBuilder.control(FrecuencyUnit.GHZ, Validators.required),
     });
 
     this.atmosphericForm = this.formBuilder.group({
@@ -329,20 +325,20 @@ export class AtenuationWaterVaporGraphComponent {
   setAtenuationForm() {
     this.atenuationForm = this.formBuilder.group({
       frecuency: this.formBuilder.control(null, Validators.required),
-      frecuencyUnit: this.formBuilder.control(frecuencyUnit.HZ, Validators.required),
+      frecuencyUnit: this.formBuilder.control(FrecuencyUnit.HZ, Validators.required),
     });
     this.showForm = true;
   }
 
   // Convert the frecuency selected to GHZ unity
 
-  calcFrecuency(frecuency: number, unit: frecuencyUnit): number {
+  calcFrecuency(frecuency: number, unit: FrecuencyUnit): number {
 
     let frecuencyResult = frecuency;
 
-    if (unit === frecuencyUnit.MHZ) {
+    if (unit === FrecuencyUnit.MHZ) {
       frecuencyResult = frecuencyResult / 1000;
-    } else if (unit === frecuencyUnit.HZ) {
+    } else if (unit === FrecuencyUnit.HZ) {
       frecuencyResult = frecuencyResult / 1000000000;
     }
 

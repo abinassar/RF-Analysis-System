@@ -3,7 +3,7 @@ import { SettingsService } from '@shared/services/settings.service';
 import { GeoPoint } from '@shared/models/geographic';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Frecuency, frecuenciesLicensed, frecuencyUnit } from '@shared/models/frecuency';
+import { Frecuency, frecuenciesLicensed, FrecuencyUnit, FrecuencyMultiplierFactor } from '@shared/models/frecuency';
 import { HomeService } from '../../home.service';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { AlertService, DataService } from '@shared/services';
@@ -49,12 +49,6 @@ export class GraphicsPage implements OnDestroy {
 
   settingsForm: FormGroup;
   showForm: boolean = false;
-  frecuencyUnit: frecuencyUnit = frecuencyUnit.GHZ;
-  frecuenciesUnits: frecuencyUnit[] = [
-    frecuencyUnit.HZ,
-    frecuencyUnit.MHZ,
-    frecuencyUnit.GHZ
-  ];
   showMap: boolean = true;
   P1: GeoPoint;
   P2: GeoPoint;
@@ -66,6 +60,9 @@ export class GraphicsPage implements OnDestroy {
   };
   selectedFrecuency: string[] = [];
   frecuencies: Frecuency[] = frecuenciesLicensed;
+  linkFrecuency: number = 0;
+  linkFrecuencyMultiplyFactor: FrecuencyMultiplierFactor = FrecuencyMultiplierFactor.GHZ;
+  showFrecuencySelector: boolean = false;
 
   constructor( public settingsService: SettingsService,
                private router: Router,
@@ -75,6 +72,11 @@ export class GraphicsPage implements OnDestroy {
                private alertService: AlertService,
                private modalController: ModalController ) {}
 
+  show() {
+    console.log("linkFrecuency ", this.linkFrecuency)
+    console.log("linkFrecuencyMultiplyFactor ", this.linkFrecuencyMultiplyFactor)
+  }
+  
   async ionViewDidEnter() {
 
     // this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
@@ -106,10 +108,13 @@ export class GraphicsPage implements OnDestroy {
 
           this.P1 = this.settingsService.linkSettings.P1;
           this.P2 = this.settingsService.linkSettings.P2;
-          
+          this.linkFrecuency = this.settingsService.linkSettings.antennaSelected.frecuency;
+          this.linkFrecuencyMultiplyFactor = this.settingsService.linkSettings.antennaSelected.frecuencyMultiplyFactor;
+
           this.setSettingsForm();
           this.showForm = true;
           this.showMap = true;
+          this.showFrecuencySelector = true;
 
         })
         .catch((error) => {
@@ -123,6 +128,8 @@ export class GraphicsPage implements OnDestroy {
           this.setSettingsForm();
           this.showForm = true;
           this.showMap = true;
+          this.showFrecuencySelector = true;
+
         });
 
   }
@@ -163,7 +170,8 @@ export class GraphicsPage implements OnDestroy {
 
       const antennaSelected: AntennaSelected = {...this.settingsService.linkSettings.antennaSelected}
 
-      antennaSelected.frecuency = this.settingsForm.get("frecuency").value;
+      antennaSelected.frecuency = this.linkFrecuency;
+      antennaSelected.frecuencyMultiplyFactor = this.linkFrecuencyMultiplyFactor;
       
       const linkSettings: LinkSettings = {
         P1: {
@@ -302,7 +310,6 @@ export class GraphicsPage implements OnDestroy {
       initialLng: this.formBuilder.control(this.P1.lng === 0 ? null : this.P1.lng, Validators.required),
       finalLat: this.formBuilder.control(this.P2.lat === 0 ? null : this.P2.lat, Validators.required),
       finalLng: this.formBuilder.control(this.P2.lng === 0 ? null : this.P2.lng, Validators.required),
-      frecuency: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.frecuency === 0 ? null : this.settingsService.linkSettings.antennaSelected.frecuency, Validators.required),
       antennaInitialHeight: this.formBuilder.control(this.settingsService.linkSettings.antennaOneHeight === 0 ? null : this.settingsService.linkSettings.antennaOneHeight, Validators.required),
       antennaFinalHeight: this.formBuilder.control(this.settingsService.linkSettings.antennaTwoHeight === 0 ? null : this.settingsService.linkSettings.antennaTwoHeight, Validators.required)
     });

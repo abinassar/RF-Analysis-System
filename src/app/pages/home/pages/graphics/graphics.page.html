@@ -9,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true">  
 
   <ion-row class="cellphone-width justify-content-center align-items-center"
            *ngIf="showMap"
@@ -81,44 +81,12 @@
                        formControlName="finalLng"></ion-input>
           </ion-col>
         </ion-row>
-        <ion-row class="mb-10px">
-          <h3>
-            Frecuencia
-          </h3>
-        </ion-row>
-        <ion-row class="mb-10px">
-          <ion-list [inset]="true">
-            <ion-item [button]="true" [detail]="false" id="select-frecuency">
-              <ion-label>Seleccionar Frecuencia</ion-label>
-            </ion-item>
-          </ion-list>
-          
-          <ion-modal trigger="select-frecuency" #modal>
-            <ng-template>
-              <app-link-frecuencies
-                class="ion-page"
-                title="Frecuencias Licenciadas"
-                [items]="frecuencies"
-                [selectedItems]="selectedFrecuency"
-                (selectionChange)="frecuencySelectionChanged($event)"
-                (selectionCancel)="modal.dismiss()"
-              ></app-link-frecuencies>
-            </ng-template>
-          </ion-modal>
 
-          <ion-col class="ion-justify-content-center ion-align-self-center">
-            <ion-input fill="outline"
-                       label="Frecuencia"
-                      labelPlacement="floating" 
-                      placeholder="Ingresa frecuencia" 
-                      type="number"
-                      formControlName="frecuency"></ion-input>
-          </ion-col>
-          <ion-col size="4"
-                   class="ion-justify-content-center ion-align-self-center">
-            <h1>MHz</h1>
-          </ion-col>
-        </ion-row>
+        <app-frecuency-selector [(frecuency)]="linkFrecuency"
+                                [(frecuencyMultFactor)]="linkFrecuencyMultiplyFactor"
+                                *ngIf="showFrecuencySelector">
+
+        </app-frecuency-selector>
     
         <ion-row class="mb-10px">
           <h3>

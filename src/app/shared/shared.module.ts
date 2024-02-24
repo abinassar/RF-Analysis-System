@@ -12,6 +12,7 @@ import { PlotlyModule } from 'angular-plotly.js';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyGraphicComponent } from './components/plotly-graphic/plotly-graphic.component';
 import { LinkFrecuenciesComponent } from './components/link-frecuencies/link-frecuencies.component';
+import { FrecuencySelectorComponent } from './components/frecuency-selector/frecuency-selector.component';
 PlotlyModule.plotlyjs = PlotlyJS;
 
 @NgModule({
@@ -22,6 +23,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     LinkSettingsComponent,
     PlotlyGraphicComponent,
     LinkFrecuenciesComponent,
+    FrecuencySelectorComponent
   ],
   imports: [
     CommonModule,
@@ -36,6 +38,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     OptionsModalComponent,
     PlotlyGraphicComponent,
     LinkFrecuenciesComponent,
+    FrecuencySelectorComponent
   ],
   providers: [
     ScreenOrientation

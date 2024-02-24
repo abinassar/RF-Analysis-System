@@ -1,0 +1,58 @@
+
+<div [formGroup]="frecuencyForm"
+     class="ion-padding">
+
+  <!-- <button (click)="show()">
+  show
+  </button> -->
+  <ion-row class="mb-10px">
+    <h3>
+      Frecuencia del enlace
+    </h3>
+  </ion-row>
+  <ion-row class="mb-10px">  
+    <ion-col class="ion-justify-content-center ion-align-self-center">
+      <ion-input fill="outline"
+                 label="Frecuencia"
+                labelPlacement="floating" 
+                placeholder="Ingresa frecuencia" 
+                type="number"
+                formControlName="frecuency"></ion-input>
+    </ion-col>
+    <ion-col size="3"
+             class="ion-justify-content-center ion-align-self-center">
+
+      <ion-select placeholder="Unidad de frecuencia"
+                  (ionChange)="onSelectionChange($event)"
+                  formControlName="frecuencyMultFactor">
+        <ion-select-option *ngFor="let frecuencyUnit of frecuenciesUnits" 
+                            [value]="frecuencyUnit.multiplierFactor">{{frecuencyUnit.frecuencyUnit}}</ion-select-option>
+      </ion-select>
+
+      <!-- <h1>MHz</h1> -->
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-align-items-center ion-justify-content-center">
+    <ion-list [inset]="true">
+      <ion-item [button]="true" [detail]="false" id="select-frecuency">
+        <ion-label>Frecuencias Bandas Permisadas</ion-label>
+      </ion-item>
+    </ion-list>
+    
+    <ion-modal trigger="select-frecuency" #modal>
+      <ng-template>
+        <app-link-frecuencies
+          class="ion-page"
+          title="Frecuencias Licenciadas"
+          [items]="frecuencies"
+          [selectedItems]="selectedFrecuency"
+          (selectionChange)="frecuencySelectionChanged($event)"
+          (selectionCancel)="modal.dismiss()"
+        ></app-link-frecuencies>
+      </ng-template>
+    </ion-modal>
+  </ion-row>
+
+</div>
+

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingController, ModalController, NavController } from '@ionic/angular';
-import { Frecuency, GeoPoint, LinkSettings, defaultLinkSettings, defaultPoints, frecuenciesLicensed } from '@shared/models';
+import { Frecuency, FrecuencyMultiplierFactor, GeoPoint, LinkSettings, defaultLinkSettings, defaultPoints, frecuenciesLicensed } from '@shared/models';
 import { AlertService, LocationService, SettingsService } from '@shared/services';
 import { HomeService } from 'src/app/pages/home/home.service';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
@@ -91,6 +91,10 @@ export class ElevationProfileComponent implements OnDestroy {
   initialAntennaAzimuth: number = 0;
   finalAntennaAzimuth: number = 0;
 
+  linkFrecuency: number = 0;
+  linkFrecuencyMultiplyFactor: FrecuencyMultiplierFactor = FrecuencyMultiplierFactor.GHZ;
+  showFrecuencySelector: boolean = false;
+
   constructor(public settingsService: SettingsService,
               private locationService: LocationService,
               private alertService: AlertService,
@@ -138,10 +142,13 @@ export class ElevationProfileComponent implements OnDestroy {
           
           this.P1 = {...this.settingsService.linkSettings.P1};
           this.P2 = {...this.settingsService.linkSettings.P2};
-          
+          this.linkFrecuency = this.settingsService.linkSettings.antennaSelected.frecuency;
+          this.linkFrecuencyMultiplyFactor = this.settingsService.linkSettings.antennaSelected.frecuencyMultiplyFactor;
+
           this.showMap = true;
           this.settingsService.showTabs = true;
           this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);   
+          this.showFrecuencySelector = true;
 
         })
         .catch((error) => {
@@ -157,10 +164,13 @@ export class ElevationProfileComponent implements OnDestroy {
           
           this.P1 = {...this.settingsService.linkSettings.P1};
           this.P2 = {...this.settingsService.linkSettings.P2};
-          
+          this.linkFrecuency = this.settingsService.linkSettings.antennaSelected.frecuency;
+          this.linkFrecuencyMultiplyFactor = this.settingsService.linkSettings.antennaSelected.frecuencyMultiplyFactor;
+
           this.showMap = true;
           this.settingsService.showTabs = true;
           this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);   
+          this.showFrecuencySelector = true;
 
         });
 
@@ -217,7 +227,6 @@ export class ElevationProfileComponent implements OnDestroy {
       finalLng: this.formBuilder.control(this.settingsService.linkSettings.P2.lng === 0 ? null : this.settingsService.linkSettings.P2.lng, Validators.required),
       antennaInitialHeight: this.formBuilder.control(this.settingsService.linkSettings.antennaOneHeight === 0 ? null : this.settingsService.linkSettings.antennaOneHeight, Validators.required),
       antennaFinalHeight: this.formBuilder.control(this.settingsService.linkSettings.antennaTwoHeight === 0 ? null : this.settingsService.linkSettings.antennaTwoHeight, Validators.required),
-      frecuency: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.frecuency === 0 ? null : this.settingsService.linkSettings.antennaSelected.frecuency, Validators.required),
       kFactor: this.formBuilder.control(this.settingsService.linkSettings.kFactor === 0 ? 1.33 : this.settingsService.linkSettings.kFactor, Validators.required)
     });
 
@@ -287,18 +296,32 @@ export class ElevationProfileComponent implements OnDestroy {
       return;
     }
 
-    if (this.settingsForm.valid) {
+    if (this.settingsForm.valid
+        && this.linkFrecuency !== 0
+        && this.linkFrecuency > 0) {
 
       this.getElevationProfile();
 
     } else {
 
+      if (this.linkFrecuency !== 0
+          || this.linkFrecuency > 0) {
+        
+        this.alertService
+            .presentAlert("Frecuencia", 
+                          "Por favor establece una frecuencia válida");
+
+      } else {
+
+        this.alertService
+            .presentAlert("Puntos geográficos", 
+                          "Por favor selecciona dos puntos en el mapa para mostrar la gráfica y rellena los campos requeridos");
+
+      }
+
       this.elevationGraph = false;
       this.settingsForm.markAllAsTouched();
 
-      this.alertService
-          .presentAlert("Puntos geográficos", 
-                        "Por favor selecciona dos puntos en el mapa para mostrar la gráfica y rellena los campos requeridos");
 
     }
 
@@ -1125,10 +1148,40 @@ export class ElevationProfileComponent implements OnDestroy {
     return result;
   }
 
+  getGhzFrecuency(): number {
+
+    switch (this.linkFrecuencyMultiplyFactor) {
+      case FrecuencyMultiplierFactor.GHZ:
+
+        return (this.linkFrecuency * this.linkFrecuencyMultiplyFactor)
+
+        break;
+
+      case FrecuencyMultiplierFactor.HZ:
+
+        return (this.linkFrecuency / 1000000000)
+
+        break;
+        
+      case FrecuencyMultiplierFactor.MHZ:
+
+        return (this.linkFrecuency / 1000)
+
+        break;        
+      default:
+
+        return (this.linkFrecuency * this.linkFrecuencyMultiplyFactor)
+
+        break;
+    }
+
+  }
+
   fresnelRadio(lambda: number, d1: number, d2: number): number {
 
-    const ghzFrecuency = this.settingsForm.get('frecuency').value / 1000;
+    // const ghzFrecuency = this.settingsForm.get('frecuency').value / 1000;
 
+    const ghzFrecuency = this.getGhzFrecuency()
     return 17.32 * Math.sqrt((d1 * d2)/((d1 + d2) * ghzFrecuency));
 
   }

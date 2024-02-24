@@ -1,13 +1,30 @@
-export enum frecuencyUnit {
+export enum FrecuencyUnit {
     GHZ = 'Ghz',
     MHZ = 'Mhz',
     HZ = 'hz'
+}
+
+export enum FrecuencyMultiplierFactor {
+    GHZ = 1000000000,
+    MHZ = 1000000,
+    HZ = 1
 }
 
 export interface Frecuency {
     frecuencyTitle: string;
     frecuencyValue: number;
     bandWidth: string;
+}
+
+export const frecuenciesUnits: FrecuencyUnit[] = [
+    FrecuencyUnit.HZ,
+    FrecuencyUnit.MHZ,
+    FrecuencyUnit.GHZ
+];
+
+export interface FrecuencyOption {
+    frecuencyUnit: FrecuencyUnit;
+    multiplierFactor: FrecuencyMultiplierFactor
 }
 
 export const frecuenciesLicensed: Frecuency[] = [

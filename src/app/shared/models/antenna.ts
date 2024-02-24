@@ -1,3 +1,4 @@
+import { FrecuencyMultiplierFactor } from "./frecuency";
 import { GeoPoint, defaultPoints } from "./geographic";
 
 export interface Antenna {
@@ -11,6 +12,7 @@ export interface Antenna {
 
 export interface AntennaSelected {
     frecuency: number;
+    frecuencyMultiplyFactor: FrecuencyMultiplierFactor;
     name: string;
     txPower: number;
     txAntennaGain: number;
@@ -23,6 +25,7 @@ export interface AntennaSelected {
 
 export const defaultAntenna: AntennaSelected = {
     frecuency: 0,
+    frecuencyMultiplyFactor: FrecuencyMultiplierFactor.GHZ,
     name: "Antena por defecto",
     txPower: 0,
     txAntennaGain: 0,
