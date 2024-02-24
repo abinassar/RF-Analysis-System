@@ -304,8 +304,8 @@ export class ElevationProfileComponent implements OnDestroy {
 
     } else {
 
-      if (this.linkFrecuency !== 0
-          || this.linkFrecuency > 0) {
+      if (this.linkFrecuency === 0
+          || this.linkFrecuency < 0) {
         
         this.alertService
             .presentAlert("Frecuencia", 

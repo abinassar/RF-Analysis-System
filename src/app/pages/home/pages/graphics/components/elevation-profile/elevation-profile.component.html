@@ -263,8 +263,12 @@
                    && reflectionPointsX.length > 0">
     <ion-card-header>
       <ion-card-title>
-        <ion-badge color="warning">PUNTOS DE REFLEXIÓN</ion-badge>
-        Recomendación: 
+        <ion-row>
+          <ion-badge color="warning">PUNTOS DE REFLEXIÓN</ion-badge>
+        </ion-row>
+        <ion-row class="mt-10px">
+          Recomendación: 
+        </ion-row>
       </ion-card-title>
       <ion-card-subtitle>
 
@@ -279,11 +283,13 @@
       <ion-row class="ion-padding pt-0px">
         <ion-col>
           <h3>
-            <!-- <ion-badge slot="start">N°{{i + 1}}:</ion-badge> -->
             <span>
-              Distancia: {{reflectionPointsX[1] / 1000 | truncate: 7}} Km (aprox.) ; 
-              Lat: {{reflectionPointCoord.lat | truncate: 10}} - Lng: {{reflectionPointCoord.lng | truncate: 10}}
+              Distancia del punto de reflexión: {{reflectionPointsX[1] / 1000 | truncate: 7}} Km (aprox.) ; 
             </span>
+          </h3>
+
+          <h3>
+            Coordenadas del punto de reflexión: Lat: {{reflectionPointCoord.lat | truncate: 10}} - Lng: {{reflectionPointCoord.lng | truncate: 10}}
           </h3>
         </ion-col>
       </ion-row>
@@ -294,13 +300,16 @@
                    && obstructionFieldPoints.length > 0">
     <ion-card-header>
       <ion-card-title>
-        <ion-badge color="warning">PUNTOS DE OBSTRUCCIÓN</ion-badge>
-        Recomendación: 
+        <ion-row>
+          <ion-badge color="warning">PUNTOS DE OBSTRUCCIÓN</ion-badge>
+        </ion-row>
+        <ion-row class="mt-10px">
+          Recomendación: 
+        </ion-row>
       </ion-card-title>
       <ion-card-subtitle>
         Es importante que revises la configuracion del enlace, ya que existen puntos de obstruccion en 
         el 60% de la primera zona de fresnel, por lo que esta afectada la factilidad del radienlace.
-        
       </ion-card-subtitle>
     </ion-card-header>
     <ion-grid>
@@ -311,13 +320,29 @@
           <h3>
             <ion-badge slot="start">N°{{i + 1}}:</ion-badge>
             <span>
-              Distancia: {{obstructionPoint.distance / 1000 | truncate: 7}} Km (aprox.) ; Lat: {{obstructionPoint.lat | truncate: 10}} - Lng: {{obstructionPoint.lng | truncate: 10}}
+              Distancia hacia el obstáculo: {{obstructionPoint.distance / 1000 | truncate: 7}} Km (aprox.) ; Lat: {{obstructionPoint.lat | truncate: 10}} - Lng: {{obstructionPoint.lng | truncate: 10}}
             </span>
           </h3>
         </ion-col>
       </ion-row>
+
     </ion-grid>
   </ion-card>
+
+  <ion-card *ngIf="elevationGraph
+                   && obstructionFieldPoints.length === 0">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-row>
+          <ion-badge color="success">PUNTOS DE OBSTRUCCIÓN</ion-badge>
+        </ion-row>
+      </ion-card-title>
+      <ion-card-subtitle>
+        El enlace configurado no tiene puntos de obstrucción.
+      </ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
 
 </ion-content>
 
