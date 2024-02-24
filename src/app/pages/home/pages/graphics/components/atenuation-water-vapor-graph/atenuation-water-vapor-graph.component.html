@@ -137,11 +137,10 @@
     </ion-card-header>
 
     <ion-card-content>
-      <ion-grid [formGroup]="atenuationForm"
-                *ngIf="showForm">
+      <ion-grid *ngIf="showForm">
 
 
-        <ion-row class="mb-10px">
+        <!-- <ion-row class="mb-10px">
           <ion-list [inset]="true">
             <ion-item [button]="true" [detail]="false" id="select-frecuency">
               <ion-label>Seleccionar Frecuencia</ion-label>
@@ -173,7 +172,13 @@
                    class="ion-justify-content-center ion-align-self-center">
             <h1>MHz</h1>
           </ion-col>
-        </ion-row>
+        </ion-row> -->
+
+        <app-frecuency-selector [(frecuency)]="linkFrecuency"
+                                [(frecuencyMultFactor)]="linkFrecuencyMultiplyFactor"
+                                *ngIf="showFrecuencySelector">
+
+        </app-frecuency-selector>
         
         <ion-row class="ion-justify-content-center ion-align-self-center">
           <ion-col>

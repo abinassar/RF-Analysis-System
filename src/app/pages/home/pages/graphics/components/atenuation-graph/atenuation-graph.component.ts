@@ -32,8 +32,6 @@ export class AtenuationGraphComponent {
     frecuencyValue: 0,
     bandWidth: ''
   };
-  selectedFrecuency: string[] = [];
-  frecuencies: Frecuency[] = frecuenciesLicensed;
   linkFrecuency: number = 0;
   linkFrecuencyMultiplyFactor: FrecuencyMultiplierFactor = FrecuencyMultiplierFactor.GHZ;
   showFrecuencySelector: boolean = false;
@@ -84,8 +82,7 @@ export class AtenuationGraphComponent {
           this.getLocationData();
           this.showMap = true;   
           this.showFrecuencySelector = true;
-          this.setForms();   
-
+          this.setForms();  
 
         })
         .catch((error) => {
@@ -105,22 +102,6 @@ export class AtenuationGraphComponent {
 
         });  
 
-  }
-
-  // frecuencySelectionChanged(frecuency: string[]) {
-  //   this.selectedFrecuency = frecuency;
-  //   this.modalSelectedFrecuency = this.formatData(this.selectedFrecuency);
-  //   this.atenuationForm.get("frecuency").setValue(this.modalSelectedFrecuency.frecuencyValue);
-  // }
-
-  private formatData(data: string[]): Frecuency {
-    if (data.length === 1) {
-      const frecuency = this.frecuencies.find(frecuency => frecuency.frecuencyTitle === data[0])
-      return frecuency;
-    } else {
-      return null
-    }
-  
   }
 
   setForms() {
@@ -240,9 +221,6 @@ export class AtenuationGraphComponent {
         && this.linkFrecuency !== 0
         && this.linkFrecuency > 0) {
 
-      // let frecuency = this.calcFrecuency((this.atenuationForm.get("frecuency").value/1000), 
-      //                                    this.atenuationForm.get("frecuencyUnit").value);
-
       let frecuencyGhz = this.getGhzFrecuency();
       
       this.locationService
@@ -302,7 +280,6 @@ export class AtenuationGraphComponent {
     }
 
   }
-
 
   async getLocationData() {
 
