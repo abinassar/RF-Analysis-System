@@ -74,6 +74,7 @@ export class AtenuationGraphComponent {
             this.settingsService.linkSettings = linksSettings[settingSelectedIndex];
 
           }
+          
           this.P1 = {...this.settingsService.linkSettings.P1};
           this.P2 = {...this.settingsService.linkSettings.P2};
           this.linkFrecuency = this.settingsService.linkSettings.antennaSelected.frecuency;

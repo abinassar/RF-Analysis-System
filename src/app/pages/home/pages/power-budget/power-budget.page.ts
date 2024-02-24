@@ -7,7 +7,7 @@ import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import { ModalController } from '@ionic/angular';
 import { AntennaListComponent } from './components/antenna-list/antenna-list.component';
 import { AlertService, SettingsService } from '@shared/services';
-import { Antenna, AntennaSelected, Frecuency, LinkSettings, antennasList, defaultLinkSettings, frecuenciesLicensed } from '@shared/models';
+import { Antenna, AntennaSelected, Frecuency, FrecuencyMultiplierFactor, LinkSettings, antennasList, defaultLinkSettings, frecuenciesLicensed } from '@shared/models';
 import { HomeService } from '../../home.service';
 import { LinkSettingsComponent } from '@shared/components/link-settings/link-settings.component';
 
@@ -52,6 +52,10 @@ export class PowerBudgetPage {
   linkDistance: number = 0;
   PEL: number = 0;
 
+  linkFrecuency: number = 0;
+  linkFrecuencyMultiplyFactor: FrecuencyMultiplierFactor = FrecuencyMultiplierFactor.GHZ;
+  showFrecuencySelector: boolean = false;
+
   constructor(private deviceOrientation: DeviceOrientation,
               private geolocation: Geolocation,
               private formBuilder: FormBuilder,
@@ -84,15 +88,64 @@ export class PowerBudgetPage {
 
   calculatePEL() {
     if (this.linkDistance !== 0
-        && this.settingsForm.get('frecuency').value) {
+        && this.linkFrecuency !== 0
+        && this.linkFrecuency > 0) {
 
-      const ghzFrecuency = (this.settingsForm.get("frecuency").value / 1000);
+      const ghzFrecuency = this.getGhzFrecuency();
+      console.log("ghzFrecuency ", ghzFrecuency)
+      console.log("this.linkDistance ", this.linkDistance)
 
-      this.PEL = 92.44 + 20 * Math.log10(this.linkDistance) + 20 * Math.log10(ghzFrecuency);
+      this.PEL = 92.44 + 20 * Math.log10(Math.abs(this.linkDistance)) + 20 * Math.log10(ghzFrecuency);
+
     } else {
-      this.alertService.presentAlert("Por favor calcula la distancia del enlace y la frecuencia",
-      "");
+
+      if (this.linkFrecuency === 0
+          || this.linkFrecuency < 0) {
+        
+        this.alertService
+            .presentAlert("Frecuencia", 
+                          "Por favor establece una frecuencia válida");
+
+      } else {
+
+        this.alertService
+            .presentAlert("Puntos geográficos",
+                          "Por favor establece la distancia del enlace");
+
+      }
+
     }
+  }
+
+  // Convert the frecuency selected to GHZ unity
+
+  getGhzFrecuency(): number {
+
+    switch (this.linkFrecuencyMultiplyFactor) {
+      case FrecuencyMultiplierFactor.GHZ:
+
+        return (this.linkFrecuency)
+
+        break;
+
+      case FrecuencyMultiplierFactor.HZ:
+
+        return (this.linkFrecuency / 1000000000)
+
+        break;
+        
+      case FrecuencyMultiplierFactor.MHZ:
+
+        return (this.linkFrecuency / 1000)
+
+        break;        
+      default:
+
+        return (this.linkFrecuency * this.linkFrecuencyMultiplyFactor)
+
+        break;
+    }
+
   }
 
   async ionViewDidEnter() {
@@ -136,6 +189,9 @@ export class PowerBudgetPage {
           
           this.setAntennaForm();
           this.setSettingsForm();
+          this.linkFrecuency = this.settingsService.linkSettings.antennaSelected.frecuency;
+          this.linkFrecuencyMultiplyFactor = this.settingsService.linkSettings.antennaSelected.frecuencyMultiplyFactor;
+          this.showFrecuencySelector = true;
           this.showSettingsForm = true;
           this.linkDistance = this.calculateDistance();
 
@@ -160,6 +216,9 @@ export class PowerBudgetPage {
           
           this.setAntennaForm();
           this.setSettingsForm();
+          this.linkFrecuency = this.settingsService.linkSettings.antennaSelected.frecuency;
+          this.linkFrecuencyMultiplyFactor = this.settingsService.linkSettings.antennaSelected.frecuencyMultiplyFactor;
+          this.showFrecuencySelector = true;
           this.showSettingsForm = true;
           this.linkDistance = this.calculateDistance();
 
@@ -174,7 +233,6 @@ export class PowerBudgetPage {
       initialLng: this.formBuilder.control(this.settingsService.linkSettings.P1.lng === 0 ? null : this.settingsService.linkSettings.P1.lng, Validators.required),
       finalLat: this.formBuilder.control(this.settingsService.linkSettings.P2.lat === 0 ? null : this.settingsService.linkSettings.P2.lat, Validators.required),
       finalLng: this.formBuilder.control(this.settingsService.linkSettings.P2.lng === 0 ? null : this.settingsService.linkSettings.P2.lng, Validators.required),
-      frecuency: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.frecuency === 0 ? null : this.settingsService.linkSettings.antennaSelected.frecuency, Validators.required)
     });
 
   };
@@ -233,13 +291,15 @@ export class PowerBudgetPage {
           // Calcular la distancia proyectada en el bearing
           const projectedDistance = distance * Math.sin(bearingRad);
         
-          return projectedDistance;
+          this.linkDistance = Math.abs(projectedDistance);
+
+          return Math.abs(projectedDistance);
 
     } else {
 
         this.alertService.presentAlert("Por favor establece la latitud y longitud de estudio",
-                                        "");
-        return this.linkDistance;
+                                       "");
+        return Math.abs(this.linkDistance);
     }
 
   }
@@ -283,7 +343,8 @@ export class PowerBudgetPage {
         this.antennaSelected.imgPath = antennaData.imgPath;
         this.antennaSelected.name = antennaData.name;
         this.antennaSelected.txAntennaGain = antennaData.txAntennaGain;
-        this.settingsForm.get('frecuency').setValue(antennaData.frecuency[0]);
+        // this.settingsForm.get('frecuency').setValue(antennaData.frecuency[0]);
+        this.linkFrecuency = antennaData.frecuency[0];
         this.antennaForm.get('txAntennaGain').setValue(antennaData.txAntennaGain);
 
       }

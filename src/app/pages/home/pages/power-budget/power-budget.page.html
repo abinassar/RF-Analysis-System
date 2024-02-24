@@ -93,7 +93,7 @@
                        formControlName="finalLng"></ion-input>
           </ion-col>
         </ion-row>
-        <ion-row class="mb-10px">
+        <!-- <ion-row class="mb-10px">
           <h3>
             Frecuencia
           </h3>
@@ -130,7 +130,14 @@
                    class="ion-justify-content-center ion-align-self-center">
             <h1>MHz</h1>
           </ion-col>
-        </ion-row>
+        </ion-row> -->
+
+        <app-frecuency-selector [(frecuency)]="linkFrecuency"
+                                [(frecuencyMultFactor)]="linkFrecuencyMultiplyFactor"
+                                *ngIf="showFrecuencySelector">
+
+        </app-frecuency-selector>
+
         <ion-row class="ion-justify-content-center ion-align-self-center link-distance">
           <h2>Distancia del enlace - {{linkDistance | truncate: 6}} KM</h2>
         </ion-row>
