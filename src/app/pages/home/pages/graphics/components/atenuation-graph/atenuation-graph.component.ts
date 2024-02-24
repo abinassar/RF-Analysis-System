@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { LoadingController, ModalController } from '@ionic/angular';
-import { Frecuency, GeoPoint, LinkSettings, defaultLinkSettings, defaultPoints, frecuenciesLicensed, frecuenciesUnits, FrecuencyUnit } from '@shared/models';
+import { Frecuency, GeoPoint, LinkSettings, defaultLinkSettings, defaultPoints, frecuenciesLicensed, frecuenciesUnits, FrecuencyUnit, FrecuencyMultiplierFactor } from '@shared/models';
 import { AlertService, LocationService, SettingsService } from '@shared/services';
 import { HomeService } from 'src/app/pages/home/home.service';
 import jwt_decode from 'jwt-decode';
@@ -22,7 +22,6 @@ export class AtenuationGraphComponent {
   atenuationGraph: boolean = false;
   showMap: boolean = false;
   frecuenciesUnits = frecuenciesUnits;
-  atenuationForm: FormGroup;
   atmosphericForm: FormGroup;
   showForm: boolean = false;
   atenuationByFrecuency: number = 0;
@@ -35,6 +34,9 @@ export class AtenuationGraphComponent {
   };
   selectedFrecuency: string[] = [];
   frecuencies: Frecuency[] = frecuenciesLicensed;
+  linkFrecuency: number = 0;
+  linkFrecuencyMultiplyFactor: FrecuencyMultiplierFactor = FrecuencyMultiplierFactor.GHZ;
+  showFrecuencySelector: boolean = false;
 
   constructor(private locationService: LocationService,
               private loadingCtrl: LoadingController,
@@ -76,9 +78,12 @@ export class AtenuationGraphComponent {
           }
           this.P1 = {...this.settingsService.linkSettings.P1};
           this.P2 = {...this.settingsService.linkSettings.P2};
-          
+          this.linkFrecuency = this.settingsService.linkSettings.antennaSelected.frecuency;
+          this.linkFrecuencyMultiplyFactor = this.settingsService.linkSettings.antennaSelected.frecuencyMultiplyFactor;
+
           this.getLocationData();
-          this.showMap = true;     
+          this.showMap = true;   
+          this.showFrecuencySelector = true;
           this.setForms();   
 
 
@@ -89,20 +94,24 @@ export class AtenuationGraphComponent {
           this.alertService.closeLoading();
           this.P1 = {...this.settingsService.linkSettings.P1};
           this.P2 = {...this.settingsService.linkSettings.P2};
-          
+          this.linkFrecuency = this.settingsService.linkSettings.antennaSelected.frecuency;
+          this.linkFrecuencyMultiplyFactor = this.settingsService.linkSettings.antennaSelected.frecuencyMultiplyFactor;
+
           this.getLocationData();
-          this.showMap = true;     
+          this.showMap = true;
+          this.showFrecuencySelector = true;
+
           this.setForms();   
 
         });  
 
   }
 
-  frecuencySelectionChanged(frecuency: string[]) {
-    this.selectedFrecuency = frecuency;
-    this.modalSelectedFrecuency = this.formatData(this.selectedFrecuency);
-    this.atenuationForm.get("frecuency").setValue(this.modalSelectedFrecuency.frecuencyValue);
-  }
+  // frecuencySelectionChanged(frecuency: string[]) {
+  //   this.selectedFrecuency = frecuency;
+  //   this.modalSelectedFrecuency = this.formatData(this.selectedFrecuency);
+  //   this.atenuationForm.get("frecuency").setValue(this.modalSelectedFrecuency.frecuencyValue);
+  // }
 
   private formatData(data: string[]): Frecuency {
     if (data.length === 1) {
@@ -115,11 +124,6 @@ export class AtenuationGraphComponent {
   }
 
   setForms() {
-
-    this.atenuationForm = this.formBuilder.group({
-      frecuency: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.frecuency === 0 ? null : this.settingsService.linkSettings.antennaSelected.frecuency, Validators.required),
-      frecuencyUnit: this.formBuilder.control(FrecuencyUnit.GHZ, Validators.required),
-    });
 
     this.atmosphericForm = this.formBuilder.group({
       atmosphericPressure: this.formBuilder.control(this.settingsService.linkSettings.atmosphericPressure === 0 ? null : this.settingsService.linkSettings.atmosphericPressure, Validators.required),
@@ -212,7 +216,6 @@ export class AtenuationGraphComponent {
 
   showForms() {
     console.log("atmosphericForm ", this.atmosphericForm)
-    console.log("atenuationForm ", this.atenuationForm)
   }
 
   // Convert the frecuency selected to GHZ unity
@@ -233,25 +236,73 @@ export class AtenuationGraphComponent {
 
   getAtenuation() {
 
-    if (this.atenuationForm.valid
-        && this.atmosphericForm.valid) {
+    if (this.atmosphericForm.valid
+        && this.linkFrecuency !== 0
+        && this.linkFrecuency > 0) {
 
-      let frecuency = this.calcFrecuency((this.atenuationForm.get("frecuency").value/1000), 
-                                         this.atenuationForm.get("frecuencyUnit").value);
+      // let frecuency = this.calcFrecuency((this.atenuationForm.get("frecuency").value/1000), 
+      //                                    this.atenuationForm.get("frecuencyUnit").value);
+
+      let frecuencyGhz = this.getGhzFrecuency();
       
       this.locationService
           .getSpecificAtenuation(this.settingsService.atmosphericPressure, 
                                  this.settingsService.temperature,
-                                 frecuency)
+                                 frecuencyGhz)
           .subscribe((response) => {
             this.atenuationByFrecuency = response.atenuationValue;
           })
 
     } else {
+
+      if (this.linkFrecuency === 0
+          || this.linkFrecuency < 0) {
+        
+        this.alertService
+            .presentAlert("Frecuencia", 
+                          "Por favor establece una frecuencia válida");
+
+      } else {
+
+        this.alertService
+            .presentAlert("Puntos geográficos",
+                          "Por favor rellena los datos atmosféricos requeridos");
+
+      }
+
       this.atmosphericForm.markAllAsTouched();
-      this.atenuationForm.markAllAsTouched();
     }
   }
+
+  getGhzFrecuency(): number {
+
+    switch (this.linkFrecuencyMultiplyFactor) {
+      case FrecuencyMultiplierFactor.GHZ:
+
+        return (this.linkFrecuency)
+
+        break;
+
+      case FrecuencyMultiplierFactor.HZ:
+
+        return (this.linkFrecuency / 1000000000)
+
+        break;
+        
+      case FrecuencyMultiplierFactor.MHZ:
+
+        return (this.linkFrecuency / 1000)
+
+        break;        
+      default:
+
+        return (this.linkFrecuency * this.linkFrecuencyMultiplyFactor)
+
+        break;
+    }
+
+  }
+
 
   async getLocationData() {
 

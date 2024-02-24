@@ -314,7 +314,7 @@ export class ElevationProfileComponent implements OnDestroy {
       } else {
 
         this.alertService
-            .presentAlert("Puntos geográficos", 
+            .presentAlert("Puntos geográficos",
                           "Por favor selecciona dos puntos en el mapa para mostrar la gráfica y rellena los campos requeridos");
 
       }
@@ -1148,7 +1148,9 @@ export class ElevationProfileComponent implements OnDestroy {
     return result;
   }
 
-  getGhzFrecuency(): number {
+  getHzFrecuency(): number {
+
+    return (this.linkFrecuency * this.linkFrecuencyMultiplyFactor);
 
     switch (this.linkFrecuencyMultiplyFactor) {
       case FrecuencyMultiplierFactor.GHZ:
@@ -1159,7 +1161,8 @@ export class ElevationProfileComponent implements OnDestroy {
 
       case FrecuencyMultiplierFactor.HZ:
 
-        return (this.linkFrecuency / 1000000000)
+        // return (this.linkFrecuency / 1000000000)
+        return (this.linkFrecuency)
 
         break;
         
@@ -1181,7 +1184,7 @@ export class ElevationProfileComponent implements OnDestroy {
 
     // const ghzFrecuency = this.settingsForm.get('frecuency').value / 1000;
 
-    const ghzFrecuency = this.getGhzFrecuency()
+    const ghzFrecuency = this.getHzFrecuency()
     return 17.32 * Math.sqrt((d1 * d2)/((d1 + d2) * ghzFrecuency));
 
   }
