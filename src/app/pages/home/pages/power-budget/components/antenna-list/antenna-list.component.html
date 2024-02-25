@@ -71,6 +71,48 @@
                       <p *ngIf="antenna.txAntennaGain !== 0">Ganancia: {{antenna.txAntennaGain}} dBi</p>
                     </ion-col>
                   </ion-row>
+
+                  <ion-row>
+
+                    <ion-col size="6">
+
+                      <ion-select placeholder="Modulación"
+                                  (ionChange)="onModulationChange($event, index)">
+                        <ion-select-option *ngFor="let modulation of antenna.antennaModulations" 
+                                            value="{{modulation}}">{{modulation}}</ion-select-option>
+                      </ion-select>
+
+                    </ion-col>
+
+                    <ion-col size="6">
+
+                      <ion-select placeholder="Canal"
+                                  (ionChange)="onChannelChange($event, index)">
+                        <ion-select-option *ngFor="let channel of antenna.antennaChannels" 
+                                            value="{{channel}}">{{channel}}</ion-select-option>
+                      </ion-select>
+                      
+                    </ion-col>
+
+                  </ion-row>
+
+                  <ion-row>
+
+                    <ion-col>
+
+                      <p>
+                        Sensibilidad del receptor:
+
+                        <span>
+                          {{antenna.rxSensitivitySelected.rxSensitivity}} dbm
+                        </span>
+
+                      </p>
+
+                    </ion-col>
+
+                  </ion-row>
+
                 </ion-grid>
               </div>
             </ion-accordion>

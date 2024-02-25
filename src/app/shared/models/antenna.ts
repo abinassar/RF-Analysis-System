@@ -8,6 +8,18 @@ export interface Antenna {
     maxDistanceKm: string;
     imgPath: string;
     checked: boolean;
+    antennaChannels: string[];
+    antennaModulations: string[];
+    rxSensitivityCombinations: RxSensitivity[];
+    rxSensitivitySelected: RxSensitivity;
+    antennaModulationSelected: string;
+    antennaChannelSelected: string;
+}
+
+export interface RxSensitivity {
+  rxSensitivity: number;
+  antennaChannel: string;
+  antennaModulation: string;
 }
 
 export interface AntennaSelected {
@@ -66,6 +78,543 @@ export const defaultLinkSettings: LinkSettings = {
     kFactor: 1.33,
 }
 
+// This is the data to the Cambium network 670 antenna
+// To develop more faster, but i should finish the put of the data
+// To the remaining antennas
+
+export const antennaRxSensitivityCambiumNetwork670 = {
+  antennaChannel: "5 MHz",
+  antennaModulation: "BPSK 0.63 Single",
+  rxSensitivity: -96.8
+}
+
+export const antennaRxDefaultSensitivity = {
+  antennaChannel: "",
+  antennaModulation: "",
+  rxSensitivity: 0
+}
+
+export const antennaChannelsCambiumNetwork670 = [
+  "5 MHz",
+  "10 MHz",
+  "15 MHz",
+  "20 MHz",
+  "30 MHz",
+  "40 MHz",
+  "45 MHz"
+]
+
+export const antennaModulationsCambiumNetwork670 = [
+  "BPSK 0.63 Single",
+  "QPSK 0.63 Single",
+  "QPSK 0.87 Dual",
+  "16QAM 0.63 Single",
+  "16QAM 0.63 Dual",
+  "16QAM 0.87 Single",
+  "16QAM 0.87 Dual",
+  "64QAM 0.75 Single",
+  "64QAM 0.75 Dual",
+  "64QAM 0.92 Single",
+  "64QAM 0.92 Dual",
+  "256QAM 0.81 Single",
+  "256QAM 0.81 Dual"
+]
+
+export const rxSensitivityCombinationsCambiumNetwork670 = [
+  // BPSK 0.63 Single
+  {
+    antennaChannel: "5 MHz",
+    antennaModulation: "BPSK 0.63 Single",
+    rxSensitivity: -96.8
+  },
+  {
+    antennaChannel: "10 MHz",
+    antennaModulation: "BPSK 0.63 Single",
+    rxSensitivity: -94.8
+  },
+  {
+    antennaChannel: "15 MHz",
+    antennaModulation: "BPSK 0.63 Single",
+    rxSensitivity: -93.0
+  },
+  {
+    antennaChannel: "20 MHz",
+    antennaModulation: "BPSK 0.63 Single",
+    rxSensitivity: -91.8
+  },
+  {
+    antennaChannel: "30 MHz",
+    antennaModulation: "BPSK 0.63 Single",
+    rxSensitivity: -90.0
+  },
+  {
+    antennaChannel: "40 MHz",
+    antennaModulation: "BPSK 0.63 Single",
+    rxSensitivity: -88.8
+  },
+  {
+    antennaChannel: "45 MHz",
+    antennaModulation: "BPSK 0.63 Single",
+    rxSensitivity: -88.3
+  },
+
+  // QPSK 0.63 Single
+  
+  {
+    antennaChannel: "5 MHz",
+    antennaModulation: "QPSK 0.63 Single",
+    rxSensitivity: -93.7
+  },
+  {
+    antennaChannel: "10 MHz",
+    antennaModulation: "QPSK 0.63 Single",
+    rxSensitivity: -91.7
+  },
+  {
+    antennaChannel: "15 MHz",
+    antennaModulation: "QPSK 0.63 Single",
+    rxSensitivity: -89.9
+  },
+  {
+    antennaChannel: "20 MHz",
+    antennaModulation: "QPSK 0.63 Single",
+    rxSensitivity: -88.7
+  },
+  {
+    antennaChannel: "30 MHz",
+    antennaModulation: "QPSK 0.63 Single",
+    rxSensitivity: -86.9
+  },
+  {
+    antennaChannel: "40 MHz",
+    antennaModulation: "QPSK 0.63 Single",
+    rxSensitivity: -85.7
+  },
+  {
+    antennaChannel: "45 MHz",
+    antennaModulation: "QPSK 0.63 Single",
+    rxSensitivity: -85.2
+  },
+
+  // QPSK 0.87 Dual
+
+  {
+    antennaChannel: "5 MHz",
+    antennaModulation: "QPSK 0.87 Dual",
+    rxSensitivity: -89.7
+  },
+  {
+    antennaChannel: "10 MHz",
+    antennaModulation: "QPSK 0.87 Dual",
+    rxSensitivity: -87.7
+  },
+  {
+    antennaChannel: "15 MHz",
+    antennaModulation: "QPSK 0.87 Dual",
+    rxSensitivity: -85.9
+  },
+  {
+    antennaChannel: "20 MHz",
+    antennaModulation: "QPSK 0.87 Dual",
+    rxSensitivity: -84.7
+  },
+  {
+    antennaChannel: "30 MHz",
+    antennaModulation: "QPSK 0.87 Dual",
+    rxSensitivity: -82.9
+  },
+  {
+    antennaChannel: "40 MHz",
+    antennaModulation: "QPSK 0.87 Dual",
+    rxSensitivity: -81.7
+  },
+  {
+    antennaChannel: "45 MHz",
+    antennaModulation: "QPSK 0.87 Dual",
+    rxSensitivity: -81.1
+  },
+
+  // 16QAM 0.63 Single
+
+  {
+    antennaChannel: "5 MHz",
+    antennaModulation: "16QAM 0.63 Single",
+    rxSensitivity: -87.4
+  },
+  {
+    antennaChannel: "10 MHz",
+    antennaModulation: "16QAM 0.63 Single",
+    rxSensitivity: -85.4
+  },
+  {
+    antennaChannel: "15 MHz",
+    antennaModulation: "16QAM 0.63 Single",
+    rxSensitivity: -83.6
+  },
+  {
+    antennaChannel: "20 MHz",
+    antennaModulation: "16QAM 0.63 Single",
+    rxSensitivity: -82.3
+  },
+  {
+    antennaChannel: "30 MHz",
+    antennaModulation: "16QAM 0.63 Single",
+    rxSensitivity: -80.6
+  },
+  {
+    antennaChannel: "40 MHz",
+    antennaModulation: "16QAM 0.63 Single",
+    rxSensitivity: -79.3
+  },
+  {
+    antennaChannel: "45 MHz",
+    antennaModulation: "16QAM 0.63 Single",
+    rxSensitivity: -78.8
+  },
+
+  // 16QAM 0.63 Dual
+
+  {
+    antennaChannel: "5 MHz",
+    antennaModulation: "16QAM 0.63 Dual",
+    rxSensitivity: -83.4
+  },
+  {
+    antennaChannel: "10 MHz",
+    antennaModulation: "16QAM 0.63 Dual",
+    rxSensitivity: -81.4
+  },
+  {
+    antennaChannel: "15 MHz",
+    antennaModulation: "16QAM 0.63 Dual",
+    rxSensitivity: -79.6
+  },
+  {
+    antennaChannel: "20 MHz",
+    antennaModulation: "16QAM 0.63 Dual",
+    rxSensitivity: -78.4
+  },
+  {
+    antennaChannel: "30 MHz",
+    antennaModulation: "16QAM 0.63 Dual",
+    rxSensitivity: -76.6
+  },
+  {
+    antennaChannel: "40 MHz",
+    antennaModulation: "16QAM 0.63 Dual",
+    rxSensitivity: -75.4
+  },
+  {
+    antennaChannel: "45 MHz",
+    antennaModulation: "16QAM 0.63 Dual",
+    rxSensitivity: -74.9
+  },
+
+  // 16QAM 0.87 Single
+
+  {
+    antennaChannel: "5 MHz",
+    antennaModulation: "16QAM 0.87 Single",
+    rxSensitivity: -82.9
+  },
+  {
+    antennaChannel: "10 MHz",
+    antennaModulation: "16QAM 0.87 Single",
+    rxSensitivity: -80.8
+  },
+  {
+    antennaChannel: "15 MHz",
+    antennaModulation: "16QAM 0.87 Single",
+    rxSensitivity: -79.1
+  },
+  {
+    antennaChannel: "20 MHz",
+    antennaModulation: "16QAM 0.87 Single",
+    rxSensitivity: -77.8
+  },
+  {
+    antennaChannel: "30 MHz",
+    antennaModulation: "16QAM 0.87 Single",
+    rxSensitivity: -76.1
+  },
+  {
+    antennaChannel: "40 MHz",
+    antennaModulation: "16QAM 0.87 Single",
+    rxSensitivity: -74.8
+  },
+  {
+    antennaChannel: "45 MHz",
+    antennaModulation: "16QAM 0.87 Single",
+    rxSensitivity: -74.3
+  },
+
+  // 16QAM 0.87 Dual
+
+  {
+    antennaChannel: "5 MHz",
+    antennaModulation: "16QAM 0.87 Dual",
+    rxSensitivity: -79.8
+  },
+  {
+    antennaChannel: "10 MHz",
+    antennaModulation: "16QAM 0.87 Dual",
+    rxSensitivity: -77.8
+  },
+  {
+    antennaChannel: "15 MHz",
+    antennaModulation: "16QAM 0.87 Dual",
+    rxSensitivity: -76.0
+  },
+  {
+    antennaChannel: "20 MHz",
+    antennaModulation: "16QAM 0.87 Dual",
+    rxSensitivity: -74.8
+  },
+  {
+    antennaChannel: "30 MHz",
+    antennaModulation: "16QAM 0.87 Dual",
+    rxSensitivity: -73.0
+  },
+  {
+    antennaChannel: "40 MHz",
+    antennaModulation: "16QAM 0.87 Dual",
+    rxSensitivity: -71.8
+  },
+  {
+    antennaChannel: "45 MHz",
+    antennaModulation: "16QAM 0.87 Dual",
+    rxSensitivity: -71.2
+  },
+
+  // 64QAM 0.75 Single
+
+  {
+    antennaChannel: "5 MHz",
+    antennaModulation: "64QAM 0.75 Single",
+    rxSensitivity: -79.8
+  },
+  {
+    antennaChannel: "10 MHz",
+    antennaModulation: "64QAM 0.75 Single",
+    rxSensitivity: -77.8
+  },
+  {
+    antennaChannel: "15 MHz",
+    antennaModulation: "64QAM 0.75 Single",
+    rxSensitivity: -76.0
+  },
+  {
+    antennaChannel: "20 MHz",
+    antennaModulation: "64QAM 0.75 Single",
+    rxSensitivity: -74.8
+  },
+  {
+    antennaChannel: "30 MHz",
+    antennaModulation: "64QAM 0.75 Single",
+    rxSensitivity: -73.0
+  },
+  {
+    antennaChannel: "40 MHz",
+    antennaModulation: "64QAM 0.75 Single",
+    rxSensitivity: -71.8
+  },
+  {
+    antennaChannel: "45 MHz",
+    antennaModulation: "64QAM 0.75 Single",
+    rxSensitivity: -71.2
+  },
+
+  // 64QAM 0.75 Dual 
+
+  {
+    antennaChannel: "5 MHz",
+    antennaModulation: "64QAM 0.75 Dual",
+    rxSensitivity: -76.7
+  },
+  {
+    antennaChannel: "10 MHz",
+    antennaModulation: "64QAM 0.75 Dual",
+    rxSensitivity: -74.7
+  },
+  {
+    antennaChannel: "15 MHz",
+    antennaModulation: "64QAM 0.75 Dual",
+    rxSensitivity: -72.9
+  },
+  {
+    antennaChannel: "20 MHz",
+    antennaModulation: "64QAM 0.75 Dual",
+    rxSensitivity: -71.6
+  },
+  {
+    antennaChannel: "30 MHz",
+    antennaModulation: "64QAM 0.75 Dual",
+    rxSensitivity: -69.9
+  },
+  {
+    antennaChannel: "40 MHz",
+    antennaModulation: "64QAM 0.75 Dual",
+    rxSensitivity: -68.6
+  },
+  {
+    antennaChannel: "45 MHz",
+    antennaModulation: "64QAM 0.75 Dual",
+    rxSensitivity: -68.1
+  },
+
+  // 64QAM 0.92 Single
+
+  {
+    antennaChannel: "5 MHz",
+    antennaModulation: "64QAM 0.92 Single",
+    rxSensitivity: -75.8
+  },
+  {
+    antennaChannel: "10 MHz",
+    antennaModulation: "64QAM 0.92 Single",
+    rxSensitivity: -73.8
+  },
+  {
+    antennaChannel: "15 MHz",
+    antennaModulation: "64QAM 0.92 Single",
+    rxSensitivity: -72.1
+  },
+  {
+    antennaChannel: "20 MHz",
+    antennaModulation: "64QAM 0.92 Single",
+    rxSensitivity: -70.8
+  },
+  {
+    antennaChannel: "30 MHz",
+    antennaModulation: "64QAM 0.92 Single",
+    rxSensitivity: -69.1
+  },
+  {
+    antennaChannel: "40 MHz",
+    antennaModulation: "64QAM 0.92 Single",
+    rxSensitivity: -67.8
+  },
+  {
+    antennaChannel: "45 MHz",
+    antennaModulation: "64QAM 0.92 Single",
+    rxSensitivity: -67.3
+  },
+
+  // 64QAM 0.92 Dual
+
+  {
+    antennaChannel: "5 MHz",
+    antennaModulation: "64QAM 0.92 Dual",
+    rxSensitivity: -72.5
+  },
+  {
+    antennaChannel: "10 MHz",
+    antennaModulation: "64QAM 0.92 Dual",
+    rxSensitivity: -70.5
+  },
+  {
+    antennaChannel: "15 MHz",
+    antennaModulation: "64QAM 0.92 Dual",
+    rxSensitivity: -68.8
+  },
+  {
+    antennaChannel: "20 MHz",
+    antennaModulation: "64QAM 0.92 Dual",
+    rxSensitivity: -67.5
+  },
+  {
+    antennaChannel: "30 MHz",
+    antennaModulation: "64QAM 0.92 Dual",
+    rxSensitivity: -65.8
+  },
+  {
+    antennaChannel: "40 MHz",
+    antennaModulation: "64QAM 0.92 Dual",
+    rxSensitivity: -64.5
+  },
+  {
+    antennaChannel: "45 MHz",
+    antennaModulation: "64QAM 0.92 Dual",
+    rxSensitivity: -64.0
+  },
+
+  // 256QAM 0.81 Single
+
+  {
+    antennaChannel: "5 MHz",
+    antennaModulation: "256QAM 0.81 Single",
+    rxSensitivity: -72.5
+  },
+  {
+    antennaChannel: "10 MHz",
+    antennaModulation: "256QAM 0.81 Single",
+    rxSensitivity: -70.5
+  },
+  {
+    antennaChannel: "15 MHz",
+    antennaModulation: "256QAM 0.81 Single",
+    rxSensitivity: -68.7
+  },
+  {
+    antennaChannel: "20 MHz",
+    antennaModulation: "256QAM 0.81 Single",
+    rxSensitivity: -67.4
+  },
+  {
+    antennaChannel: "30 MHz",
+    antennaModulation: "256QAM 0.81 Single",
+    rxSensitivity: -65.7
+  },
+  {
+    antennaChannel: "40 MHz",
+    antennaModulation: "256QAM 0.81 Single",
+    rxSensitivity: -64.4
+  },
+  {
+    antennaChannel: "45 MHz",
+    antennaModulation: "256QAM 0.81 Single",
+    rxSensitivity: -63.9
+  },
+
+  // 256QAM 0.81 Dual
+
+  {
+    antennaChannel: "5 MHz",
+    antennaModulation: "256QAM 0.81 Single",
+    rxSensitivity: -68.8
+  },
+  {
+    antennaChannel: "10 MHz",
+    antennaModulation: "256QAM 0.81 Single",
+    rxSensitivity: -66.8
+  },
+  {
+    antennaChannel: "15 MHz",
+    antennaModulation: "256QAM 0.81 Single",
+    rxSensitivity: -65.0
+  },
+  {
+    antennaChannel: "20 MHz",
+    antennaModulation: "256QAM 0.81 Single",
+    rxSensitivity: -63.8
+  },
+  {
+    antennaChannel: "30 MHz",
+    antennaModulation: "256QAM 0.81 Single",
+    rxSensitivity: -62.0
+  },
+  {
+    antennaChannel: "40 MHz",
+    antennaModulation: "256QAM 0.81 Single",
+    rxSensitivity: -60.8
+  },
+  {
+    antennaChannel: "45 MHz",
+    antennaModulation: "256QAM 0.81 Single",
+    rxSensitivity: -60.3
+  }
+]
+
 export const antennasList: Antenna[] = [
     {
       name: "Ericsson AIR 5121",
@@ -73,7 +622,13 @@ export const antennasList: Antenna[] = [
       frecuency: [27500, 28350],
       maxDistanceKm: "No disponible",
       imgPath: "../../../assets/images/antennas/Ericsson AIR 5121.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     },  
     {
       name: "Ericsson AIR 5332",
@@ -81,7 +636,13 @@ export const antennasList: Antenna[] = [
       frecuency: [37000, 40000],
       maxDistanceKm: "No disponible",
       imgPath: "../../../assets/images/antennas/Ericsson AIR 5332.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     },  
     {
       name: "Huawei OptiX RTN 380H",
@@ -89,7 +650,13 @@ export const antennasList: Antenna[] = [
       frecuency: [71000, 76000],
       maxDistanceKm: "No disponible",
       imgPath: "../../../assets/images/antennas/huawei-optix-rtn-380h.jpg",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     }, 
     {
       name: "Huawei RTN 380E",
@@ -97,7 +664,13 @@ export const antennasList: Antenna[] = [
       frecuency: [71000, 86000],
       maxDistanceKm: "No disponible",
       imgPath: "../../../assets/images/antennas/Huawei-optix-rtn-380E.jpg",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     },  
     {
       name: "Cambium Networks PTP 650",
@@ -105,7 +678,13 @@ export const antennasList: Antenna[] = [
       frecuency: [4900, 6050],
       maxDistanceKm: "No disponible",
       imgPath: "../../../assets/images/antennas/Cambium Networks PTP 650.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     }, 
     {
       name: "Cambium Networks PTP 670",
@@ -113,7 +692,13 @@ export const antennasList: Antenna[] = [
       frecuency: [4900, 6050],
       maxDistanceKm: "No disponible",
       imgPath: "../../../assets/images/antennas/Cambium Networks PTP 670.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     },    
     {
       name: "Cambium Networks PTP 820C",
@@ -121,7 +706,13 @@ export const antennasList: Antenna[] = [
       frecuency: [6000, 38000],
       maxDistanceKm: "No disponible",
       imgPath: "../../../assets/images/antennas/Cambium Networks PTP 820C.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     },  
     {
       name: "Nokia AirScale Radio Access",
@@ -129,7 +720,13 @@ export const antennasList: Antenna[] = [
       frecuency: [3500, 3800],
       maxDistanceKm: "No disponible",
       imgPath: "../../../assets/images/antennas/Nokia AirScale Radio Access.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     }, 
     {
       name: "Siklu EH-8010",
@@ -137,7 +734,13 @@ export const antennasList: Antenna[] = [
       frecuency: [71000, 86000],
       maxDistanceKm: "No disponible",
       imgPath: "../../../assets/images/antennas/Siklu EH-8010.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     }, 
     {
       name: "Ceragon FibeAir IP-20C-HP",
@@ -145,7 +748,13 @@ export const antennasList: Antenna[] = [
       frecuency: [6000, 11000],
       maxDistanceKm: "No disponible",
       imgPath: "../../../assets/images/antennas/Ceragon FibeAir IP-20C.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     }, 
     {
       name: "DragonWave Harmony Enhanced",
@@ -153,7 +762,13 @@ export const antennasList: Antenna[] = [
       frecuency: [6000, 42000],
       maxDistanceKm: "No disponible",
       imgPath: "../../../assets/images/antennas/DragonWave Harmony Enhanced.jpg",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     },   
     {
       name: "Tsunami QB 8250 Link",
@@ -161,7 +776,13 @@ export const antennasList: Antenna[] = [
       frecuency: [4900, 5925],
       maxDistanceKm: "No disponible",
       imgPath: "../../../assets/images/antennas/Tsunami QB 8250 Link.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     },       
     {
       name: "UBIQUITI AIRMAX U-OMT-DISH-5",
@@ -169,7 +790,13 @@ export const antennasList: Antenna[] = [
       frecuency: [5000],
       maxDistanceKm: "5 Km",
       imgPath: "../../../assets/images/antennas/UBIQUITI AIRMAX U-OMT-DISH-5.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     },
     {
       name: "Ubiquiti airFiber 60 LR",
@@ -177,7 +804,13 @@ export const antennasList: Antenna[] = [
       frecuency: [60000],
       maxDistanceKm: "15 Km",
       imgPath: "../../../assets/images/antennas/Ubiquiti airFiber 60 LR.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     },   
     {
       name: "Ubiquiti airFiber 60 XR",
@@ -185,7 +818,13 @@ export const antennasList: Antenna[] = [
       frecuency: [60000],
       maxDistanceKm: "15 Km",
       imgPath: "../../../assets/images/antennas/Ubiquiti airFiber 60 XR.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     },   
     {
       name: "Ubiquiti airFiber 60 XG",
@@ -193,7 +832,13 @@ export const antennasList: Antenna[] = [
       frecuency: [60000],
       maxDistanceKm: "4 Km",
       imgPath: "../../../assets/images/antennas/Ubiquiti airFiber 60 XG.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     }, 
     {
       name: "Ubiquiti airFiber 60 HD",
@@ -201,7 +846,13 @@ export const antennasList: Antenna[] = [
       frecuency: [60000],
       maxDistanceKm: "2 Km",
       imgPath: "../../../assets/images/antennas/Ubiquiti airFiber 60 HD.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     },    
     {
       name: "Ubiquiti GigaBeam",
@@ -209,7 +860,13 @@ export const antennasList: Antenna[] = [
       frecuency: [60000],
       maxDistanceKm: "2 Km",
       imgPath: "../../../assets/images/antennas/Ubiquiti GigaBeam.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     },
     {
       name: "Ubiquiti AirFiber 24",
@@ -217,7 +874,13 @@ export const antennasList: Antenna[] = [
       frecuency: [24100],
       maxDistanceKm: "13 Km",
       imgPath: "../../../assets/images/antennas/Ubiquiti AirFiber 24 - 1.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     },     
     {
       name: "Ubiquiti AirFiber 24 HD",
@@ -225,7 +888,13 @@ export const antennasList: Antenna[] = [
       frecuency: [24050],
       maxDistanceKm: "20 Km",
       imgPath: "../../../assets/images/antennas/Ubiquiti AirFiber 24 HD - 1.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     },  
     {
       name: "Ubiquiti Powerbeam PBE 5AC-620",
@@ -233,7 +902,13 @@ export const antennasList: Antenna[] = [
       frecuency: [5000],
       maxDistanceKm: "30 Km",
       imgPath: "../../../assets/images/antennas/Ubiquiti Powerbeam PBE 5AC-620.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     },  
     {
       name: "Ubiquiti PowerBeam AC PBE-5AC-300",
@@ -241,7 +916,13 @@ export const antennasList: Antenna[] = [
       frecuency: [5000],
       maxDistanceKm: "30 Km",
       imgPath: "../../../assets/images/antennas/Ubiquiti PowerBeam AC PBE-5AC-300.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     }, 
     {
       name: "Ubiquiti PowerBeam AC PBE-5AC-400",
@@ -249,6 +930,13 @@ export const antennasList: Antenna[] = [
       frecuency: [5000],
       maxDistanceKm: "30 Km",
       imgPath: "../../../assets/images/antennas/Ubiquiti PowerBeam AC PBE-5AC-400.png",
-      checked: false
+      checked: false,
+      antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaModulations: antennaModulationsCambiumNetwork670,
+      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+      rxSensitivitySelected: antennaRxDefaultSensitivity,
+      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
     }
 ];
+

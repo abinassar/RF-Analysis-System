@@ -7,7 +7,7 @@ import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import { ModalController } from '@ionic/angular';
 import { AntennaListComponent } from './components/antenna-list/antenna-list.component';
 import { AlertService, SettingsService } from '@shared/services';
-import { Antenna, AntennaSelected, Frecuency, FrecuencyMultiplierFactor, LinkSettings, antennasList, defaultLinkSettings, frecuenciesLicensed } from '@shared/models';
+import { Antenna, AntennaSelected, Frecuency, FrecuencyMultiplierFactor, LinkSettings, antennaChannelsCambiumNetwork670, antennaModulationsCambiumNetwork670, antennaRxSensitivityCambiumNetwork670, antennasList, defaultLinkSettings, frecuenciesLicensed, rxSensitivityCombinationsCambiumNetwork670 } from '@shared/models';
 import { HomeService } from '../../home.service';
 import { LinkSettingsComponent } from '@shared/components/link-settings/link-settings.component';
 
@@ -37,7 +37,13 @@ export class PowerBudgetPage {
     frecuency: [0],
     maxDistanceKm: "",
     imgPath: "https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y",
-    checked: false
+    checked: false,
+    antennaChannels: antennaChannelsCambiumNetwork670,
+    antennaModulations: antennaModulationsCambiumNetwork670,
+    rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
+    rxSensitivitySelected: antennaRxSensitivityCambiumNetwork670,
+    antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
+    antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
   };
   antennasList: Antenna[] = antennasList;
 

@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ModalController, NavParams } from '@ionic/angular';
-import { Antenna, LinkSettings, antennasList } from '@shared/models';
+import { Antenna, LinkSettings, RxSensitivity, antennasList } from '@shared/models';
 import { AlertService, SettingsService } from '@shared/services';
 import { HomeService } from 'src/app/pages/home/home.service';
 
@@ -110,6 +110,48 @@ export class AntennaListComponent implements OnInit {
                             return this.modalCtrl.dismiss();
                            })
         });
+
+  }
+
+  onModulationChange(event, antennaIndex: number) {
+
+    console.log("modulation ", event)
+
+    const modulationSelected = event.detail.value;
+    this.setRxSensitivity(antennaIndex, '', modulationSelected);
+  }
+
+  onChannelChange(event, antennaIndex: number) {
+    console.log("channel ", event)
+
+    const channelSelected = event.detail.value;
+    this.setRxSensitivity(antennaIndex, channelSelected, '');
+
+  }
+
+  setRxSensitivity(antennaIndex: number,
+                   antennaChannel: string = '',
+                   antennaModulation: string = '') {
+
+    if (antennaChannel !== '') {
+      this.antennasList[antennaIndex].rxSensitivitySelected.antennaChannel = antennaChannel;
+    }
+
+    if (antennaModulation !== '') {
+      this.antennasList[antennaIndex].rxSensitivitySelected.antennaModulation = antennaModulation;
+    }
+
+    if (this.antennasList[antennaIndex].rxSensitivitySelected.antennaChannel !== ''
+        && this.antennasList[antennaIndex].rxSensitivitySelected.antennaModulation !== '') {
+
+      const rxSensitivityCombination = this.antennasList[antennaIndex].rxSensitivityCombinations.find((combination) => {
+        return combination.antennaChannel === this.antennasList[antennaIndex].rxSensitivitySelected.antennaChannel
+               && combination.antennaModulation === this.antennasList[antennaIndex].rxSensitivitySelected.antennaModulation
+      });
+
+      this.antennasList[antennaIndex].rxSensitivitySelected = rxSensitivityCombination;
+      
+    }
 
   }
 
