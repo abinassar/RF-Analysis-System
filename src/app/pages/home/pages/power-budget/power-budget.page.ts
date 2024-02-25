@@ -29,6 +29,7 @@ export class PowerBudgetPage {
   public qiblaLocation = 0;
 
   antennaForm: FormGroup;
+  fadeMarginForm: FormGroup;
   showForm: boolean = false;
   antennaSelected: Antenna = {
     name: "No Seleccionada",
@@ -449,7 +450,8 @@ export class PowerBudgetPage {
       freeSpaceLoss: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.freeSpaceLoss === 0 ? null : this.settingsService.linkSettings.antennaSelected.freeSpaceLoss, Validators.required),
       miscLoss: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.miscLoss === 0 ? null : this.settingsService.linkSettings.antennaSelected.miscLoss, Validators.required),
       rxAntennaGain: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.rxAntennaGain === 0 ? null : this.settingsService.linkSettings.antennaSelected.rxAntennaGain, Validators.required),
-      rxLoss: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.rxLoss === 0 ? null : this.settingsService.linkSettings.antennaSelected.rxLoss, Validators.required)
+      rxLoss: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.rxLoss === 0 ? null : this.settingsService.linkSettings.antennaSelected.rxLoss, Validators.required),
+      rxSensitivity: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.rxSensitivity === 0 ? null : this.settingsService.linkSettings.antennaSelected.rxSensitivity, Validators.required)
     });
 
     this.showForm = true;

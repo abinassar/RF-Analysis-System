@@ -144,12 +144,14 @@
       </ion-grid>
       <ion-grid>
         <ion-row class="ion-align-items-center">
-          <ion-col size="6" class="ion-text-center">
+          <ion-col class="ion-text-center">
             <ion-button class="center" (click)="calculateDistance()">
               Obtener distancia del enlace
             </ion-button>
           </ion-col>
-          <ion-col size="6" class="ion-text-center">
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col class="ion-text-center">
             <ion-button class="center" (click)="calculatePEL()">
               Calcular PEL
             </ion-button>
@@ -256,6 +258,20 @@
         <ion-row>
           <ion-col>
             <h2 class="mb-10px">
+              Sensibilidad del receptor - (dBm)
+            </h2>
+            <ion-input fill="outline"
+                        label="Sensibilidad del receptor" 
+                        labelPlacement="floating" 
+                        placeholder="Ingresa valor" 
+                        type="number"
+                        formControlName="rxSensitivity"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <h2 class="mb-10px">
               Otras pérdidas (Margen de desvanecimiento, desajuste de polarización, etc) - (dB)
             </h2>
             <ion-input fill="outline"
@@ -292,6 +308,24 @@
         <ion-row class="ion-justify-content-center ion-align-self-center">
           <ion-col class="power-budget-result">
 
+            <h1 class="text-center">
+              Margen de desvanecimiento:
+            </h1>
+
+            <h2 class="text-center mt-10px">
+
+              FM = {{powerAddition()}} (Prx) - 
+                    {{antennaForm.get('rxSensitivity').value}} (Rs) = {{powerAddition() - antennaForm.get('rxSensitivity').value}} (dBm)
+
+            </h2>
+
+          </ion-col>
+        </ion-row>
+
+
+        <ion-row class="ion-justify-content-center ion-align-self-center">
+          <ion-col class="power-budget-result">
+
             <h2>
               Sumario:
             </h2>
@@ -303,7 +337,8 @@
               <li>Gtx: Ganancia de la antena transmisora</li>
               <li>Ltx: Pérdidas de transmisión (Cable, conectores, etc)</li>
               <li>Lfs: Pérdidas de espacio libre</li>
-              <li>Lm: Otras pérdidas (Margen de desvanecimiento, desajuste de polarización, etc)</li>
+              <li>Rs: Sensibilidad del receptor</li>
+              <li>Lm: Otras pérdidas (Desajuste de polarización, etc)</li>
               <li>Lrx: Pérdidas en el receptor (Cable, conectores, etc)</li>
 
             </ul>
@@ -319,7 +354,7 @@
     </ion-card-content>
 
   </ion-card>
-
+  
 </ion-content>
 
 <ion-fab slot="fixed" 

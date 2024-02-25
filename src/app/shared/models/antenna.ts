@@ -21,6 +21,7 @@ export interface AntennaSelected {
     miscLoss: number;
     rxAntennaGain: number;
     rxLoss: number;
+    rxSensitivity: number;
 }
 
 export const defaultAntenna: AntennaSelected = {
@@ -33,7 +34,8 @@ export const defaultAntenna: AntennaSelected = {
     freeSpaceLoss: 0,
     miscLoss: 0,
     rxAntennaGain: 0,
-    rxLoss: 0
+    rxLoss: 0,
+    rxSensitivity: 0
 }
 
 export interface LinkSettings {
