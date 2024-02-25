@@ -93,9 +93,6 @@ export class PowerBudgetPage {
         && this.linkFrecuency > 0) {
 
       const ghzFrecuency = this.getGhzFrecuency();
-      console.log("ghzFrecuency ", ghzFrecuency)
-      console.log("this.linkDistance ", this.linkDistance)
-
       this.PEL = 92.44 + 20 * Math.log10(Math.abs(this.linkDistance)) + 20 * Math.log10(ghzFrecuency);
 
     } else {
@@ -192,6 +189,7 @@ export class PowerBudgetPage {
           this.setSettingsForm();
           this.linkFrecuency = this.settingsService.linkSettings.antennaSelected.frecuency;
           this.linkFrecuencyMultiplyFactor = this.settingsService.linkSettings.antennaSelected.frecuencyMultiplyFactor;
+          this.PEL = this.settingsService.linkSettings.antennaSelected.freeSpaceLoss;
           this.showFrecuencySelector = true;
           this.showSettingsForm = true;
           this.linkDistance = this.calculateDistance();
@@ -219,6 +217,7 @@ export class PowerBudgetPage {
           this.setSettingsForm();
           this.linkFrecuency = this.settingsService.linkSettings.antennaSelected.frecuency;
           this.linkFrecuencyMultiplyFactor = this.settingsService.linkSettings.antennaSelected.frecuencyMultiplyFactor;
+          this.PEL = this.settingsService.linkSettings.antennaSelected.freeSpaceLoss;
           this.showFrecuencySelector = true;
           this.showSettingsForm = true;
           this.linkDistance = this.calculateDistance();
@@ -356,6 +355,8 @@ export class PowerBudgetPage {
   }
 
   saveLinkSettings() {
+
+    console.log("this.antennaForm ", this.antennaForm)
     
     if (this.antennaForm.valid) {
       
@@ -365,10 +366,12 @@ export class PowerBudgetPage {
       antennaSettings.txPower = this.antennaForm.get("txPower").value;
       antennaSettings.txAntennaGain = this.antennaForm.get("txAntennaGain").value;
       antennaSettings.txLoss = this.antennaForm.get("txLoss").value;
-      antennaSettings.freeSpaceLoss = this.antennaForm.get("freeSpaceLoss").value;
+      // antennaSettings.freeSpaceLoss = this.antennaForm.get("freeSpaceLoss").value;
+      antennaSettings.freeSpaceLoss = this.PEL;
       antennaSettings.miscLoss = this.antennaForm.get("miscLoss").value;
       antennaSettings.rxAntennaGain = this.antennaForm.get("rxAntennaGain").value;
       antennaSettings.rxLoss = this.antennaForm.get("rxLoss").value;
+      antennaSettings.rxSensitivity = this.antennaForm.get("rxSensitivity").value;
 
       const linkSettings: LinkSettings = {
         P1: this.settingsService.linkSettings.P1,
@@ -435,7 +438,8 @@ export class PowerBudgetPage {
     return this.antennaForm.get("txPower").value +
            this.antennaForm.get("txAntennaGain").value +
            this.antennaForm.get("txLoss").value +
-           this.antennaForm.get("freeSpaceLoss").value +
+          //  this.antennaForm.get("freeSpaceLoss").value +
+           this.PEL +
            this.antennaForm.get("miscLoss").value +
            this.antennaForm.get("rxAntennaGain").value +
            this.antennaForm.get("rxLoss").value;
@@ -447,7 +451,7 @@ export class PowerBudgetPage {
       txPower: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.txPower === 0 ? null : this.settingsService.linkSettings.antennaSelected.txPower, Validators.required),
       txAntennaGain: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.txAntennaGain === 0 ? null : this.settingsService.linkSettings.antennaSelected.txAntennaGain, Validators.required),
       txLoss: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.txLoss === 0 ? null : this.settingsService.linkSettings.antennaSelected.txLoss, Validators.required),
-      freeSpaceLoss: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.freeSpaceLoss === 0 ? null : this.settingsService.linkSettings.antennaSelected.freeSpaceLoss, Validators.required),
+      // freeSpaceLoss: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.freeSpaceLoss === 0 ? null : this.settingsService.linkSettings.antennaSelected.freeSpaceLoss, Validators.required),
       miscLoss: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.miscLoss === 0 ? null : this.settingsService.linkSettings.antennaSelected.miscLoss, Validators.required),
       rxAntennaGain: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.rxAntennaGain === 0 ? null : this.settingsService.linkSettings.antennaSelected.rxAntennaGain, Validators.required),
       rxLoss: this.formBuilder.control(this.settingsService.linkSettings.antennaSelected.rxLoss === 0 ? null : this.settingsService.linkSettings.antennaSelected.rxLoss, Validators.required),

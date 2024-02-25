@@ -295,10 +295,11 @@
               Prx = {{antennaForm.get('txPower').value}} (Ptx) + 
                     {{antennaForm.get('txAntennaGain').value}} (Gtx) -
                     {{antennaForm.get('txLoss').value}} (Ltx) -
-                    {{antennaForm.get('freeSpaceLoss').value}} (Lfs) -
+                    <!-- {{antennaForm.get('freeSpaceLoss').value}} (Lfs) - -->
+                    {{PEL}} (Lfs) -
                     {{antennaForm.get('miscLoss').value}} (Lm) +
                     {{antennaForm.get('rxAntennaGain').value}} (Grx) -
-                    {{antennaForm.get('rxLoss').value}} (Lrx) = {{powerAddition()}} (dBm)
+                    {{antennaForm.get('rxLoss').value}} (Lrx) = {{powerAddition() | truncate: 7}} (dBm)
 
             </h2>
 
@@ -315,7 +316,7 @@
             <h2 class="text-center mt-10px">
 
               FM = {{powerAddition()}} (Prx) - 
-                    {{antennaForm.get('rxSensitivity').value}} (Rs) = {{powerAddition() - antennaForm.get('rxSensitivity').value}} (dBm)
+                    {{antennaForm.get('rxSensitivity').value}} (Rs) = {{powerAddition() - antennaForm.get('rxSensitivity').value | truncate: 7}} (dBm)
 
             </h2>
 
