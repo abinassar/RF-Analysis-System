@@ -35,7 +35,7 @@
 
     <button class="floating-button" 
             (click)="generate3dChart()"
-            *ngIf="!show3dGraph">
+            *ngIf="!show3dGraph && show3dIcon">
     
             <img src="../../../../../../../assets/icons/3d-graph.svg"
                  width="25px">
@@ -44,7 +44,7 @@
 
     <button class="floating-button" 
             (click)="generate2dChart()"
-            *ngIf="show3dGraph">
+            *ngIf="show3dGraph && showProfileIcon">
     
             <img src="../../../../../../../assets/icons/elevation-graph.svg"
                  width="25px">

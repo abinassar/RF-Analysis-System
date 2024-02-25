@@ -15,8 +15,10 @@ export class PlotlyGraphicComponent implements OnInit, OnChanges {
   defaultTraceData: any[] = [];
   defaultData: any[] = [];
   layout: any;
-  show3dGraph: boolean = false;
-
+  
+  @Input() show3dIcon: boolean = false;
+  @Input() showProfileIcon: boolean = false;
+  @Input() show3dGraph: boolean = false;
   @Input() inputData;
   @Input() inputLayout;
   @Input() insideComponent: boolean = false;
