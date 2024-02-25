@@ -19,6 +19,7 @@ export class AntennaListComponent implements OnInit {
   antennaSettingsForm: FormGroup;
   antennaSelected: FormArray;
   antennaName: string;
+  antennaData: Antenna;
 
   constructor(private modalCtrl: ModalController,
               private formBuilder: FormBuilder,
@@ -30,6 +31,7 @@ export class AntennaListComponent implements OnInit {
   ngOnInit() {
 
     this.antennaName = this.navParams.get('antennaName');
+    this.antennaData = this.navParams.get('antennaSelected');
 
     this.antennaSettingsForm = this.formBuilder.group({
       antennaSelected: this.formBuilder.array([])
@@ -52,15 +54,28 @@ export class AntennaListComponent implements OnInit {
 
     if (antennaSelectedIndex !== -1) {
 
+      console.log("antennaSelectedIndex ", antennaSelectedIndex)
+
       this.antennaSelected.at(antennaSelectedIndex).get("checked").setValue(true);
       this.antennaSelectedIndex = antennaSelectedIndex;
 
+      if (this.antennaData.antennaChannelSelected !== '') {
+        this.antennasList[this.antennaSelectedIndex].rxSensitivitySelected.antennaChannel = this.antennaData.rxSensitivitySelected.antennaChannel;
+      }
+
+      if (this.antennaData.antennaModulationSelected !== '') {
+        this.antennasList[this.antennaSelectedIndex].rxSensitivitySelected.antennaModulation = this.antennaData.rxSensitivitySelected.antennaModulation;
+      }
+
+      this.antennasList[this.antennaSelectedIndex].rxSensitivitySelected.rxSensitivity = this.antennaData.rxSensitivitySelected.rxSensitivity;
+      
     } else {
 
       this.antennaSelected.at(0).get("checked").setValue(true);
       this.antennaSelectedIndex = 0;
 
     }
+
   }
 
   cancel() {
@@ -76,6 +91,14 @@ export class AntennaListComponent implements OnInit {
 
     let antennaSelected: Antenna = this.antennasList[this.antennaSelectedIndex];
     let antennaSelectedToSave = this.settingsService.linkSettings.antennaSelected;
+
+    // Add features selected by the user in the select antenna list
+
+    if (antennaSelected.rxSensitivitySelected.rxSensitivity !== 0) {
+      antennaSelectedToSave.rxSensitivity = antennaSelected.rxSensitivitySelected.rxSensitivity;
+      antennaSelectedToSave.antennaModulation = antennaSelected.rxSensitivitySelected.antennaModulation;
+      antennaSelectedToSave.antennaChannel = antennaSelected.rxSensitivitySelected.antennaChannel;
+    }
 
     antennaSelectedToSave.name = this.antennasList[this.antennaSelectedIndex].name;
 

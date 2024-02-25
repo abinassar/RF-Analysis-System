@@ -34,6 +34,8 @@ export interface AntennaSelected {
     rxAntennaGain: number;
     rxLoss: number;
     rxSensitivity: number;
+    antennaModulation: string;
+    antennaChannel: string;
 }
 
 export const defaultAntenna: AntennaSelected = {
@@ -47,7 +49,9 @@ export const defaultAntenna: AntennaSelected = {
     miscLoss: 0,
     rxAntennaGain: 0,
     rxLoss: 0,
-    rxSensitivity: 0
+    rxSensitivity: 0,
+    antennaModulation: "",
+    antennaChannel: ""
 }
 
 export interface LinkSettings {

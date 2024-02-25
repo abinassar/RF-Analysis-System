@@ -333,11 +333,14 @@ export class PowerBudgetPage {
 
   async navToAntennaList() {
 
+    console.log("this.antennaSelected ", this.antennaSelected)
+
     const modal = await this.modalController.create({
       component: AntennaListComponent,
       cssClass: 'my-custom-class',
       componentProps: {
-        antennaName: this.antennaSelected.name
+        antennaName: this.antennaSelected.name,
+        antennaSelected: this.antennaSelected
       }
     });
 
@@ -349,7 +352,11 @@ export class PowerBudgetPage {
         this.antennaSelected.imgPath = antennaData.imgPath;
         this.antennaSelected.name = antennaData.name;
         this.antennaSelected.txAntennaGain = antennaData.txAntennaGain;
-        // this.settingsForm.get('frecuency').setValue(antennaData.frecuency[0]);
+        
+        if (antennaData.rxSensitivitySelected.rxSensitivity !== 0) {
+          this.settingsForm.get('rxSensitivity').setValue(antennaData.rxSensitivitySelected.rxSensitivity);
+        }
+
         this.linkFrecuency = antennaData.frecuency[0];
         this.antennaForm.get('txAntennaGain').setValue(antennaData.txAntennaGain);
 
