@@ -1,25 +1,5 @@
 
 
-<div fxLayout="row"
-     fxLayoutGap="10px"
-     class="ion-padding"
-     *ngIf="showElevationProfileFilters">
-
-     <h3>
-          Filtros
-     </h3>
-
-     <ion-button *ngFor="let trace of defaultTraceData; let i=index" 
-                 (click)="showTrace(trace.name)">
-          {{trace.name}}
-     </ion-button>
-
-     <ion-button (click)="showAllTraces()">
-          Todas
-     </ion-button>
-
-</div>
-
 <div class="plot-container">
   <plotly-plot [data]="data" 
                [layout]="layout" 
@@ -66,4 +46,31 @@
             
     </button>
   </div>
-</div>   
+</div> 
+
+<ion-card fxLayout="row"
+          fxLayoutGap="10px"
+          *ngIf="showElevationProfileFilters">
+
+     <ion-card-title>
+          <h3>
+               Filtros de Gráfico
+          </h3>
+     </ion-card-title>
+
+     <ion-card-content>
+
+          <ion-button *ngFor="let filter of elevationProfileTraceFilters; let i=index" 
+                      (click)="filterTrace(filter)"
+                      size="small">
+               {{filter}}
+          </ion-button>
+     
+          <ion-button (click)="showAllTraces()"
+                      size="small">
+               Todas
+          </ion-button>
+
+     </ion-card-content>
+
+</ion-card>

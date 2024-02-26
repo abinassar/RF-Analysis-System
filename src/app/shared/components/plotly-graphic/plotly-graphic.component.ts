@@ -27,11 +27,22 @@ export class PlotlyGraphicComponent implements OnInit, OnChanges {
   @Input() showElevationProfileFilters: boolean = false;
   @Output() showFullScreenGraphic = new EventEmitter<void>();
 
+  elevationProfileTraceFilters: any[] = [
+    'Zona de Fresnel',
+    'Primera Zona de Fresnel',
+    'Linea de Enlace Principal',
+    'Puntos de Obstrucción',
+    'Despeje',
+    'Puntos de Reflexión'
+  ];
+
   constructor(private screenOrientation: ScreenOrientation,
               private locationService: LocationService,
               private alertService: AlertService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log("this.defaultData ", this.defaultData)
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     
@@ -53,10 +64,13 @@ export class PlotlyGraphicComponent implements OnInit, OnChanges {
 
   setElevationProfileFilters(changes: SimpleChanges) {
 
+    
+
     const defaultData = changes['inputData'].currentValue;
     const defaultTraceData = changes['inputData'].currentValue.filter((data) => data.name !== 'Puntos de elevacion');
     const firstFresnelTraceData = changes['inputData'].currentValue.filter((data) => data.name !== 'Puntos de elevacion');
 
+    console.log("firstFresnelTraceData ", firstFresnelTraceData)
     // TODO: Improve this buttons
     let filterButtons = [];
 
@@ -71,9 +85,42 @@ export class PlotlyGraphicComponent implements OnInit, OnChanges {
 
   }
 
-  showTrace(traceName: string) {
-    let dataFiltered = this.defaultData.filter((trace) => trace.name === traceName || trace.name === 'Puntos de elevacion');
-    this.data = dataFiltered;
+  filterTrace(traceName: string) {
+
+    if (traceName === 'Zona de Fresnel') {
+
+      let dataFiltered = this.defaultData.filter((trace) => {
+        return trace.name === 'Zona de Fresnel Inferior' 
+               || trace.name === 'Zona de Fresnel Superior'
+               || trace.name === 'Puntos de elevacion'
+      });
+      this.data = dataFiltered;
+        
+    } else if (traceName === 'Primera Zona de Fresnel') {
+
+      let dataFiltered = this.defaultData.filter((trace) => {
+        return trace.name === 'Primera Zona de Fresnel Inferior' 
+               || trace.name === 'Primera Zona de Fresnel Superior'
+               || trace.name === 'Puntos de elevacion'
+      });
+      this.data = dataFiltered;
+
+    } else if (traceName === 'Puntos de Obstrucción') {
+
+      let dataFiltered = this.defaultData.filter((trace) => {
+        return trace.name === 'Puntos de Obstrucción Inferior' 
+               || trace.name === 'Puntos de Obstrucción Superior'
+               || trace.name === 'Puntos de elevacion'
+      });
+      this.data = dataFiltered;
+
+    } else {
+
+      let dataFiltered = this.defaultData.filter((trace) => trace.name === traceName || trace.name === 'Puntos de elevacion');
+      this.data = dataFiltered;
+
+    }
+
   }
 
   showAllTraces() {

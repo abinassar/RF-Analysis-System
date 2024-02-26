@@ -160,10 +160,9 @@
 
       <ion-card-header>
         <ion-card-title>
-          Gráfico de elevación
+          Gráfico de Elevación
         </ion-card-title>
-      </ion-card-header>    
-
+      </ion-card-header>  
       <app-plotly-graphic [inputData]="elevationData.data"
                           [inputLayout]="elevationData.layout"
                           [insideComponent]="true"
@@ -175,7 +174,6 @@
                           (showFullScreenGraphic)="showFullScreenGraphic()">
 
       </app-plotly-graphic>
-      
 
     </ng-container>
     <ng-template #noElevationGraphic>
@@ -204,6 +202,32 @@
         </ul>
       </ion-card-content>      
     </ng-template>
+
+  </ion-card>
+
+  <ion-card *ngIf="linkDistance !== 0">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-badge color="primary">Distancia del Enlace</ion-badge>
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <ion-grid>
+        <ion-row class="pt-0px justify-content-center align-items-center">
+          <ion-col>
+            <h2>
+              Distancia:
+              <span>
+                {{linkDistance | truncate: 7}} (Km)
+              </span>
+            </h2>
+          </ion-col>
+  
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
 
   </ion-card>
 
@@ -265,7 +289,6 @@
     </ion-card-content>
 
   </ion-card>
-
 
   <ion-card *ngIf="elevationGraph
                    && !existClearance">
@@ -364,7 +387,7 @@
         </ion-row>
   
       </ion-grid>
-      
+
     </ion-card-content>
   </ion-card>
 

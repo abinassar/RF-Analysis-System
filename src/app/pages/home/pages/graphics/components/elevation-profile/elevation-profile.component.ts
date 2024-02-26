@@ -20,6 +20,7 @@ export class ElevationProfileComponent implements OnDestroy {
   lambda: number = SPEED_OF_LIGHT/(this.settingsService.linkSettings.antennaSelected.frecuency * 1e6);
   distance1!: number;
   distance2!: number;
+  linkDistance: number = 0;
   dataFresnelx: number[] = [];
   dataFresnely: number[] = [];
   dataFresnelyInverted: number[] = [];
@@ -837,7 +838,7 @@ export class ElevationProfileComponent implements OnDestroy {
         line: {
           color: '#4bb543'
         },
-        name: 'Linea de enlace principal',
+        name: 'Linea de Enlace Principal',
         showlegend: false
       },    
     );
@@ -852,7 +853,7 @@ export class ElevationProfileComponent implements OnDestroy {
         line: {
           color: '#d91313'
         },
-        name: 'puntos de obstruccion inferior',
+        name: 'Puntos de Obstrucción Inferior',
         showlegend: false
       },
       {
@@ -864,7 +865,7 @@ export class ElevationProfileComponent implements OnDestroy {
         line: {
           color: '#d91313'
         },
-        name: 'puntos de obstruccion superior',
+        name: 'Puntos de Obstrucción Superior',
         showlegend: false
       },
     );
@@ -889,7 +890,7 @@ export class ElevationProfileComponent implements OnDestroy {
       clearancePointsY.push(fresnelPoints.fresnelDataY[maxElevationIndex] + fresnelPoints.fresnelRadioYPoints[maxElevationIndex]);
   
       // The clearance distance is the difference between the elevation point and the signal point
-      
+
       this.clearanceDistance = clearancePointsY[1] - clearancePointsY[0];
 
       this.elevationData.data.push(
@@ -1220,6 +1221,7 @@ export class ElevationProfileComponent implements OnDestroy {
                         linkDistance: number,
                         reflectionDistance: number) {
 
+    this.linkDistance = linkDistance;
     let distanceInMeters = linkDistance * 1000;
     let reflectionDistanceInMeters = reflectionDistance * 1000;
 
@@ -1272,7 +1274,7 @@ export class ElevationProfileComponent implements OnDestroy {
           line: {
             color: '#ff0000'
           },
-          name: 'Punto de reflexión',
+          name: 'Puntos de Reflexión',
           showlegend: false
         }      
       );
