@@ -87,13 +87,17 @@ export class ElevationProfileComponent implements OnDestroy {
   };
   selectedFrecuency: string[] = [];
   frecuencies: Frecuency[] = frecuenciesLicensed;
-  existClearance: boolean = false;
   initialAntennaAzimuth: number = 0;
   finalAntennaAzimuth: number = 0;
 
   linkFrecuency: number = 0;
   linkFrecuencyMultiplyFactor: FrecuencyMultiplierFactor = FrecuencyMultiplierFactor.GHZ;
   showFrecuencySelector: boolean = false;
+
+  // Clearance variables
+
+  existClearance: boolean = false;
+  clearanceDistance: number = 0;
 
   constructor(public settingsService: SettingsService,
               private locationService: LocationService,
@@ -884,6 +888,10 @@ export class ElevationProfileComponent implements OnDestroy {
       clearancePointsY.push(this.elevationDataY[maxElevationIndex]);
       clearancePointsY.push(fresnelPoints.fresnelDataY[maxElevationIndex] + fresnelPoints.fresnelRadioYPoints[maxElevationIndex]);
   
+      // The clearance distance is the difference between the elevation point and the signal point
+      
+      this.clearanceDistance = clearancePointsY[1] - clearancePointsY[0];
+
       this.elevationData.data.push(
         {
           x: clearancePointsX,
