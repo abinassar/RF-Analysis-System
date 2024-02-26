@@ -683,12 +683,26 @@ export const antennasList: Antenna[] = [
       maxDistanceKm: "No disponible",
       imgPath: "../../../assets/images/antennas/Cambium Networks PTP 650.png",
       checked: false,
-      antennaChannels: antennaChannelsCambiumNetwork670,
-      antennaModulations: antennaModulationsCambiumNetwork670,
-      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
-      rxSensitivitySelected: antennaRxDefaultSensitivity,
-      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
-      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
+      antennaChannels: [
+        "5 MHz"
+      ],
+      antennaModulations: [
+        "BPSK to 256 QAM dual"
+      ],
+      rxSensitivityCombinations: [
+        {
+          antennaChannel: "5 MHz",
+          antennaModulation: "BPSK to 256 QAM dual",
+          rxSensitivity: -98.0
+        }   
+      ],
+      rxSensitivitySelected: {
+        antennaChannel: "5 MHz",
+        antennaModulation: "BPSK to 256 QAM dual",
+        rxSensitivity: -98.0
+      },
+      antennaChannelSelected: "5 MHz",
+      antennaModulationSelected: "BPSK to 256 QAM dual"
     }, 
     {
       name: "Cambium Networks PTP 670",
