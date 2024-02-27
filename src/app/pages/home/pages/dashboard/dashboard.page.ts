@@ -5,6 +5,8 @@ import { GeoPoint, LinkSettings, defaultLinkSettings } from '@shared/models';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SignInService } from 'src/app/pages/sign-in/sign-in.service';
+import { ModalController } from '@ionic/angular';
+import { NewLinkComponent } from '@shared/components/new-link/new-link.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,6 +23,7 @@ export class DashboardPage implements OnInit {
               public homeService: HomeService,
               private formBuilder: FormBuilder,
               private router: Router,
+              public modalController: ModalController,
               private signInService: SignInService) { }
 
   async ngOnInit() {
@@ -61,6 +64,26 @@ export class DashboardPage implements OnInit {
     });
 
     this.settingsService.linkSettings = this.settingsService.linkSettingsList[linkSelectedIndex];
+  }
+
+  async newLink() {
+
+    const modal = await this.modalController.create({
+      component: NewLinkComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+
+      }
+    });
+
+    modal.onDidDismiss().then((result) => {
+      if (result.role !== 'cancel') {
+        
+      }
+    });
+
+    await modal.present();
+
   }
 
   navToProfileGraph() {

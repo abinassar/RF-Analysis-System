@@ -1,0 +1,227 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>Selección de Antena</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()">Confirm</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+  
+
+<ion-content [fullscreen]="true"
+             [formGroup]="newLinkForm">  
+
+  <ion-card>
+
+    <ion-card-header>
+      <ion-card-title>
+        Nombre del enlace
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-row class="mb-10px">
+      <ion-col size="12">
+        <ion-input fill="outline"
+                   label="Nombre" 
+                   labelPlacement="floating" 
+                   placeholder="Ingresa Nombre" 
+                   type="text"
+                   formControlName="name"></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <ion-card-header>
+      <ion-card-title>
+        Ubicación del Enlace
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-row class="cellphone-width justify-content-center align-items-center">
+      <ion-col>
+        <app-global-map class="map-container"
+                        (showFullScreenMap)="showFullScreenMap()"
+                        [P1]="P1"
+                        [P2]="P2"
+                        (sendP1)="getP1($event)"
+                        (sendP2)="getP2($event)"
+                        [insideComponent]="true"></app-global-map>
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
+
+  <ion-card>
+
+    <ion-card-header>
+      <ion-card-title>Coordenadas del enlace:</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-grid>
+        <ion-row class="mb-10px">
+          <h3>
+            Punto inicial
+          </h3>
+        </ion-row>
+        <ion-row class="mb-10px">
+          <ion-col>
+            <ion-input fill="outline"
+                      label="Latitud" 
+                      labelPlacement="floating" 
+                      placeholder="Ingresa latitud" 
+                      type="number"
+                      formControlName="initialLat"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-input fill="outline"
+                      label="Longitud"
+                      labelPlacement="floating" 
+                      placeholder="Ingresa longitud" 
+                      type="number"
+                      formControlName="initialLng"></ion-input>
+          </ion-col>
+        </ion-row>
+    
+        <ion-row class="mb-10px">
+          <h3>
+            Punto final
+          </h3>
+        </ion-row>
+        <ion-row class="mb-10px">
+          <ion-col>
+            <ion-input fill="outline"
+                      label="Latitud" 
+                      labelPlacement="floating" 
+                      placeholder="Ingresa latitud" 
+                      type="number"
+                      formControlName="finalLat"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-input fill="outline"
+                      label="Longitud"
+                      labelPlacement="floating" 
+                      placeholder="Ingresa longitud" 
+                      type="number"
+                      formControlName="finalLng"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <app-frecuency-selector [(frecuency)]="linkFrecuency"
+                                [(frecuencyMultFactor)]="linkFrecuencyMultiplyFactor">
+
+        </app-frecuency-selector>
+    
+        <ion-row class="mb-10px">
+          <h3>
+            Altura de antenas
+          </h3>
+        </ion-row>
+    
+        <ion-row class="mb-10px">
+          <ion-col>
+            <ion-input fill="outline"
+                      label="Altura antena inicial (mts)"
+                      labelPlacement="floating" 
+                      placeholder="Ingresa Altura" 
+                      type="number"
+                      formControlName="antennaInitialHeight"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-input fill="outline"
+                      label="Altura antena final (mts)"
+                      labelPlacement="floating" 
+                      placeholder="Ingresa Altura" 
+                      type="number"
+                      formControlName="antennaFinalHeight"></ion-input>
+          </ion-col>
+    
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+
+  </ion-card>
+
+  <ion-card>
+
+    <ion-grid class="ion-padding">
+      <ion-row size="12" class="ion-justify-content-center ion-align-self-center">
+          <ion-avatar>
+            <img src="{{antennaSelected.imgPath}}" />
+          </ion-avatar>
+      </ion-row>
+    
+      <ion-row size="12" class="ion-justify-content-center ion-align-self-center">
+        <h3>
+          Antena Seleccionada
+        </h3>
+      </ion-row>
+  
+      <ion-row size="12" class="ion-justify-content-center ion-align-self-center">
+        <h4 class="mt-0px">
+          {{antennaSelected.name}}
+        </h4>
+      </ion-row>
+  
+      <ion-row size="12" class="ion-justify-content-center ion-align-self-center">
+        <ion-button  (click)="navToAntennaList()">
+          Cambiar
+        </ion-button>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid class="ion-padding">
+
+      <ion-row class="mb-10px">
+        <ion-col size="12">
+          <ion-input fill="outline"
+                     label="Ganancia de la antena (dBi)" 
+                     labelPlacement="floating" 
+                     placeholder="Ingresa Valor" 
+                     type="number"
+                     formControlName="txAntennaGain"></ion-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mb-10px">
+        <ion-col size="12">
+          <ion-input fill="outline"
+                     label="Canal de la Antena" 
+                     labelPlacement="floating" 
+                     placeholder="Ingresa Valor" 
+                     type="text"
+                     formControlName="antennaChannel"></ion-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mb-10px">
+        <ion-col size="12">
+          <ion-input fill="outline"
+                     label="Modulación de la Antena" 
+                     labelPlacement="floating" 
+                     placeholder="Ingresa Valor" 
+                     type="text"
+                     formControlName="antennaModulation"></ion-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mb-10px">
+        <ion-col size="12">
+          <ion-input fill="outline"
+                     label="Sensibilidad del Receptor (dBm)" 
+                     labelPlacement="floating" 
+                     placeholder="Ingresa Valor" 
+                     type="number"
+                     formControlName="rxSensitivity"></ion-input>
+        </ion-col>
+      </ion-row>
+      
+    </ion-grid>
+    
+      
+  </ion-card>
+
+</ion-content>

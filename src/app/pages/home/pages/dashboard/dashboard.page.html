@@ -60,7 +60,7 @@
         <ion-row>
 
           <ion-col>
-            Antena seleccionada: {{settingsService.linkSettings.antennaSelected.name}}
+            Antena Seleccionada: {{settingsService.linkSettings.antennaSelected.name}}
           </ion-col>
 
         </ion-row>
@@ -86,6 +86,19 @@
         </ion-row>
 
       </div>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-button (click)="newLink()"
+                      expand="full">
+
+            <ion-icon slot="start" name="bar-chart"></ion-icon>
+
+            Nuevo Enlace
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
 
     </ion-card-content>
     

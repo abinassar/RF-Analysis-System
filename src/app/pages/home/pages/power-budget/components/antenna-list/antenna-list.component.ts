@@ -20,6 +20,7 @@ export class AntennaListComponent implements OnInit {
   antennaSelected: FormArray;
   antennaName: string;
   antennaData: Antenna;
+  skipSaveAntenna: boolean = false;
 
   constructor(private modalCtrl: ModalController,
               private formBuilder: FormBuilder,
@@ -32,6 +33,7 @@ export class AntennaListComponent implements OnInit {
 
     this.antennaName = this.navParams.get('antennaName');
     this.antennaData = this.navParams.get('antennaSelected');
+    this.skipSaveAntenna = this.navParams.get('skipSaveAntenna');
 
     this.antennaSettingsForm = this.formBuilder.group({
       antennaSelected: this.formBuilder.array([])
@@ -84,55 +86,63 @@ export class AntennaListComponent implements OnInit {
 
   confirm() {
 
-    console.log("this.antennaSelectedIndex ", this.antennaSelectedIndex)
-    console.log("this.antennasList[this.antennaSelectedIndex] ", this.antennasList[this.antennaSelectedIndex])
-
-    this.alertService.showLoading("Guardando datos del enlace...");
-
     let antennaSelected: Antenna = this.antennasList[this.antennaSelectedIndex];
-    let antennaSelectedToSave = this.settingsService.linkSettings.antennaSelected;
 
-    // Add features selected by the user in the select antenna list
+    if (this.skipSaveAntenna) {
 
-    if (antennaSelected.rxSensitivitySelected.rxSensitivity !== 0) {
-      antennaSelectedToSave.rxSensitivity = antennaSelected.rxSensitivitySelected.rxSensitivity;
-      antennaSelectedToSave.antennaModulation = antennaSelected.rxSensitivitySelected.antennaModulation;
-      antennaSelectedToSave.antennaChannel = antennaSelected.rxSensitivitySelected.antennaChannel;
+      return this.modalCtrl.dismiss(antennaSelected);
+      
+    } else {
+
+      this.alertService.showLoading("Guardando datos del enlace...");
+  
+      let antennaSelectedToSave = this.settingsService.linkSettings.antennaSelected;
+  
+      // Add features selected by the user in the select antenna list
+  
+      if (antennaSelected.rxSensitivitySelected.rxSensitivity !== 0) {
+        antennaSelectedToSave.rxSensitivity = antennaSelected.rxSensitivitySelected.rxSensitivity;
+        antennaSelectedToSave.antennaModulation = antennaSelected.rxSensitivitySelected.antennaModulation;
+        antennaSelectedToSave.antennaChannel = antennaSelected.rxSensitivitySelected.antennaChannel;
+      }
+  
+      antennaSelectedToSave.name = this.antennasList[this.antennaSelectedIndex].name;
+  
+      const linkSettings: LinkSettings = {
+        P1: this.settingsService.linkSettings.P1,
+        P2: this.settingsService.linkSettings.P2,
+        antennaOneHeight: this.settingsService.linkSettings.antennaOneHeight,
+        antennaTwoHeight: this.settingsService.linkSettings.antennaTwoHeight,
+        antennaSelected: antennaSelectedToSave,
+        atmosphericPressure: this.settingsService.linkSettings.atmosphericPressure,
+        temperature: this.settingsService.linkSettings.temperature,
+        waterDensity: this.settingsService.linkSettings.waterDensity,
+        linkName: this.settingsService.linkSettings.linkName,
+        selected: true,
+        kFactor: this.settingsService.linkSettings.kFactor
+      }
+  
+      this.settingsService
+          .SetUserLinkSettingsData(this.homeService.getUserId, [linkSettings])
+          .subscribe((response) => {
+  
+            this.alertService.closeLoading();
+            this.alertService.presentToast("bottom","Configuracion guardada!");
+            return this.modalCtrl.dismiss(antennaSelected);
+  
+          },
+          (error) => {
+            this.alertService.closeLoading();
+            this.alertService.presentAlert("Hubo un problema guadrando la configuracion",
+                                           "Por favor, intenta mas tarde")
+                             .then(() => {
+                              return this.modalCtrl.dismiss();
+                             })
+          });
+
     }
 
-    antennaSelectedToSave.name = this.antennasList[this.antennaSelectedIndex].name;
-
-    const linkSettings: LinkSettings = {
-      P1: this.settingsService.linkSettings.P1,
-      P2: this.settingsService.linkSettings.P2,
-      antennaOneHeight: this.settingsService.linkSettings.antennaOneHeight,
-      antennaTwoHeight: this.settingsService.linkSettings.antennaTwoHeight,
-      antennaSelected: antennaSelectedToSave,
-      atmosphericPressure: this.settingsService.linkSettings.atmosphericPressure,
-      temperature: this.settingsService.linkSettings.temperature,
-      waterDensity: this.settingsService.linkSettings.waterDensity,
-      linkName: this.settingsService.linkSettings.linkName,
-      selected: true,
-      kFactor: this.settingsService.linkSettings.kFactor
-    }
-
-    this.settingsService
-        .SetUserLinkSettingsData(this.homeService.getUserId, [linkSettings])
-        .subscribe((response) => {
-
-          this.alertService.closeLoading();
-          this.alertService.presentToast("bottom","Configuracion guardada!");
-          return this.modalCtrl.dismiss(antennaSelected);
-
-        },
-        (error) => {
-          this.alertService.closeLoading();
-          this.alertService.presentAlert("Hubo un problema guadrando la configuracion",
-                                         "Por favor, intenta mas tarde")
-                           .then(() => {
-                            return this.modalCtrl.dismiss();
-                           })
-        });
+    return this.modalCtrl.dismiss();
 
   }
 

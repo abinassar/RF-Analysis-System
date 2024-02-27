@@ -13,6 +13,7 @@ import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyGraphicComponent } from './components/plotly-graphic/plotly-graphic.component';
 import { LinkFrecuenciesComponent } from './components/link-frecuencies/link-frecuencies.component';
 import { FrecuencySelectorComponent } from './components/frecuency-selector/frecuency-selector.component';
+import { NewLinkComponent } from './components/new-link/new-link.component';
 PlotlyModule.plotlyjs = PlotlyJS;
 
 @NgModule({
@@ -23,7 +24,8 @@ PlotlyModule.plotlyjs = PlotlyJS;
     LinkSettingsComponent,
     PlotlyGraphicComponent,
     LinkFrecuenciesComponent,
-    FrecuencySelectorComponent
+    FrecuencySelectorComponent,
+    NewLinkComponent
   ],
   imports: [
     CommonModule,

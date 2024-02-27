@@ -340,7 +340,8 @@ export class PowerBudgetPage {
       cssClass: 'my-custom-class',
       componentProps: {
         antennaName: this.antennaSelected.name,
-        antennaSelected: this.antennaSelected
+        antennaSelected: this.antennaSelected,
+        skipSaveAntenna: false
       }
     });
 
