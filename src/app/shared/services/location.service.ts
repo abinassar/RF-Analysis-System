@@ -10,9 +10,9 @@ import { SurfaceData } from '@shared/models/surface';
 })
 export class LocationService {
 
-  uri: string = 'http://127.0.0.1:5000';
+  // uri: string = 'http://127.0.0.1:5000';
   // uri: string = 'http://abinassar.pythonanywhere.com';
-  // uri: string = 'http://einfokus.com/rf-analisys-system';
+  uri: string = 'http://einfokus.com/rf-analisys-system';
 
   constructor(private dataService: DataService) { }
 

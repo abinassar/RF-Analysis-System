@@ -157,12 +157,8 @@ export class LinkSettingsComponent  implements OnInit {
 
       newLinkSettings.linkName = this.linkForm.get("linkName").value;
       newLinkSettings.selected = false;
-
-      console.log("newLinkSettings ", newLinkSettings)
   
       linksList.push(newLinkSettings);
-
-      console.log("linksList ", linksList)
 
       const linkGroup = this.formBuilder.group({
         checked: false

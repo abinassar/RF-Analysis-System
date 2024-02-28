@@ -72,13 +72,15 @@ export class DashboardPage implements OnInit {
       component: NewLinkComponent,
       cssClass: 'my-custom-class',
       componentProps: {
-
+        linkSettings: this.settingsService.linkSettings,
+        linkSettingsList: this.settingsService.linkSettingsList
       }
     });
 
-    modal.onDidDismiss().then((result) => {
+    modal.onDidDismiss().then((result: any) => {
       if (result.role !== 'cancel') {
-        
+        this.settingsService.linkSettings = result.data;
+        this.linksForm.get('linkSelected').setValue(result.data.linkName)
       }
     });
 
