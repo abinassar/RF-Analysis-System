@@ -21,15 +21,19 @@ export class AlertService {
 
     await alert.present();
   }
-  async showConfirmationAlert(title: string, message: string) {
+
+  async showConfirmationAlert(title: string, 
+                              message: string,
+                              confirmText: string = 'Confirmar',
+                              cancelText: string = 'Cancelar') {
 
     let alertButtons: AlertButton[] = [
       {
-        text: 'Cancelar',
+        text: cancelText,
         role: 'cancel'
       },
       {
-        text: 'Confirmar',
+        text: confirmText,
         role: 'confirm'
       },
     ];
@@ -45,8 +49,6 @@ export class AlertService {
   
     // Espera a que el alert se cierre
     const { role } = await alert.onDidDismiss();
-  
-    console.log("role", role);
   
     return role === 'confirm' ? true : false;
   }

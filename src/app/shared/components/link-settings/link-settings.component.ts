@@ -111,7 +111,6 @@ export class LinkSettingsComponent  implements OnInit {
       this.alertService.showConfirmationAlert("¿Eliminar enlace?", 
                                               `¿Estás seguro de eliminar el enlace '${this.linkSettingsList[index].linkName}'?`)
                        .then((confirm) => {
-                        console.log("confirm ", confirm)
   
                           if (confirm) {
   

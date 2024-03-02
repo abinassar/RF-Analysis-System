@@ -14,6 +14,7 @@ import { DeviceOrientation, DeviceOrientationCompassHeading } from '@ionic-nativ
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import { HomeService } from 'src/app/pages/home/home.service';
 import { Router } from '@angular/router';
+import { AlertService } from '@shared/services';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -68,17 +69,21 @@ export class GlobalMapComponent implements OnDestroy, OnChanges {
 
   refreshMapObservable = this.homeService.refreshMap$.subscribe(() => {
     this.refreshMap();
-  })
+  });
+
+  initialCenter: GeoPoint = {
+    lat: 0,
+    lng: 0
+  };
 
   constructor(private actionSheetController: ActionSheetController,
               private menu: MenuController,
-              private linkModalCtrl: ModalController,
+              private alertService: AlertService,
               private settingsService: SettingsService,
               private deviceOrientation: DeviceOrientation,
               private geolocation: Geolocation,
               private homeService: HomeService,
-              private screenOrientation: ScreenOrientation,
-              private router: Router) {
+              private screenOrientation: ScreenOrientation) {
 
 
     // Watch the device compass heading change
@@ -132,6 +137,28 @@ export class GlobalMapComponent implements OnDestroy, OnChanges {
     
   }
 
+  getLocation() {
+
+    this.alertService
+        .showConfirmationAlert('Ubicación',
+                               '¿Colocar mapa en la ubicacion actual?',
+                               'Si',
+                               'Cancelar')
+        .then((confirm) => {
+          if (confirm) {
+
+            this.initialCenter.lat = this.currentLocation.coords.latitude;
+            this.initialCenter.lng = this.currentLocation.coords.longitude;
+            this.map.setView([
+              this.initialCenter.lat,
+              this.initialCenter.lng
+            ]);
+
+          }
+        })
+
+  }
+
   landscapeOrientation() {
 
     if (this.insideComponent) {
@@ -152,27 +179,24 @@ export class GlobalMapComponent implements OnDestroy, OnChanges {
     }
   }
 
-  refreshMap() {
+  refreshMap(setInitialPoints: boolean = true) {
     this.map.off();
     this.map.remove();
     this.initMap();
-    this.setInitialPoints();
+    if (setInitialPoints) {
+      this.setInitialPoints();
+    }
   }
 
   initMap() {
 
-    const initialCenter: GeoPoint = {
-      lat: 0,
-      lng: 0
-    };
-
     if (this.settingsService.linkSettings.P1.lng !== 0) {
-      initialCenter.lat = this.settingsService.linkSettings.P1.lat;
-      initialCenter.lng = this.settingsService.linkSettings.P1.lng;
+      this.initialCenter.lat = this.settingsService.linkSettings.P1.lat;
+      this.initialCenter.lng = this.settingsService.linkSettings.P1.lng;
     }
 
     this.map = Leaflet.map("map", {
-      center: [ initialCenter.lat, initialCenter.lng ],
+      center: [ this.initialCenter.lat, this.initialCenter.lng ],
       zoom: 12.5,
       renderer: Leaflet.canvas(),
     })
