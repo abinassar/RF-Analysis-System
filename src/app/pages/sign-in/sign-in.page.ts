@@ -36,8 +36,6 @@ export class SignInPage implements OnInit {
 
   login() {
 
-    console.log("sign in form ", this.signInForm)
-
     if (this.signInForm.valid) {
 
       this.alertService.showLoading("Iniciando sesión");
@@ -52,6 +50,8 @@ export class SignInPage implements OnInit {
         console.log("result ", result)
 
         const user = result.user;
+
+        console.log("user ", user)
 
         if (!user.emailVerified) {
           this.alertService.closeLoading();

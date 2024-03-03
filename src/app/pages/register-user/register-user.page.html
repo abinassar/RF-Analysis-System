@@ -16,6 +16,17 @@
   
       <form [formGroup]="signUpForm"
             class="ion-padding">
+
+        <ion-item>
+          <ion-label position="floating">Nombre</ion-label>
+          <ion-input formControlName="firstName"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Apellido</ion-label>
+          <ion-input formControlName="lastName"></ion-input>
+        </ion-item>
+
         <ion-item>
           <ion-label position="floating">Correo</ion-label>
           <ion-input formControlName="email"></ion-input>

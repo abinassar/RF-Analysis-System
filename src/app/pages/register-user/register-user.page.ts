@@ -22,9 +22,11 @@ export class RegisterUserPage implements OnInit {
   ngOnInit() {
 
     this.signUpForm = this.fb.group({
-      email: this.fb.control('', [Validators.required]),
+      firstName: this.fb.control('', [Validators.required]),
+      lastName: this.fb.control('', [Validators.required]),
+      email: this.fb.control('', [Validators.required, Validators.email]),
       password: this.fb.control('', [Validators.required])
-    })
+    });
 
   }
 
@@ -34,12 +36,20 @@ export class RegisterUserPage implements OnInit {
 
       this.alertService.showLoading("Creando usuario");
       
+      let firstName = this.signUpForm.get('firstName').value;
+      let lastName = this.signUpForm.get('lastName').value;
       let email = this.signUpForm.get('email').value;
       let password = this.signUpForm.get('password').value;
 
       try {
 
         const createdUser = await this.signinService.SignUp(email, password);
+
+        // Agregar nombre y apellido al perfil del usuario
+        await createdUser.user.updateProfile({
+          displayName: `${firstName} ${lastName}`
+        });
+        
         await this.signinService.SetUserData(createdUser.user);
         await this.dataService.setLinkData(createdUser.user);
         await this.signinService.SendVerificationMail(email);
