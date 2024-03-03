@@ -29,11 +29,13 @@ import { NativeHttpModule,
          NativeHttpBackend, 
          NativeHttpFallback } from 'ionic-native-http-connection-backend';
 import { Platform } from '@ionic/angular';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule, 
+    BrowserAnimationsModule,
     IonicModule.forRoot(), 
     AppRoutingModule,
     HttpClientModule,

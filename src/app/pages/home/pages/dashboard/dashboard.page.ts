@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertService, SettingsService } from '@shared/services';
 import { HomeService } from '../../home.service';
-import { GeoPoint, LinkSettings, defaultLinkSettings } from '@shared/models';
+import { FrecuencyMultiplierFactor, GeoPoint, LinkSettings, defaultLinkSettings } from '@shared/models';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SignInService } from 'src/app/pages/sign-in/sign-in.service';
 import { ModalController } from '@ionic/angular';
 import { NewLinkComponent } from '@shared/components/new-link/new-link.component';
+import { fadeAnimation } from '@shared/animations';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
+  animations: fadeAnimation
 })
 export class DashboardPage implements OnInit {
 
@@ -85,6 +87,18 @@ export class DashboardPage implements OnInit {
     });
 
     await modal.present();
+
+  }
+
+  translatefrecuencyMultFactor(multiplyFactor: number): string {
+
+    if (multiplyFactor === FrecuencyMultiplierFactor.GHZ) {
+      return 'Ghz'
+    } else if (multiplyFactor === FrecuencyMultiplierFactor.MHZ) {
+      return 'Mhz'
+    } else {
+      return 'hz'
+    }
 
   }
 

@@ -20,16 +20,19 @@
   </ion-card-header>
 
   <ion-card [formGroup]="linksForm"
-            *ngIf="showLinkForm">
+            *ngIf="showLinkForm"
+            [@fadeIn]>
 
-    <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+    <img alt="Silhouette of mountains" src="../../../../../../../assets/images/telecom-tower.jpg" />
     <ion-card-header>
       <ion-card-title>
 
         <ion-row class="ion-align-items-center">
 
           <ion-col>
-            Enlaces:
+            <h1>
+              Enlaces:
+            </h1>
           </ion-col>
 
           <ion-col>
@@ -45,6 +48,12 @@
           </ion-col>
 
         </ion-row>
+
+        <ion-row>
+          <h3>
+            Características del enlace
+          </h3>  
+        </ion-row>
         
       </ion-card-title>
     </ion-card-header>
@@ -52,10 +61,6 @@
     <ion-card-content>
 
       <div class="link-features-container">
-
-        <h2>
-          Características del enlace
-        </h2>
 
         <ion-row>
 
@@ -67,22 +72,66 @@
 
         <ion-row>
 
-          <ion-col>
-            Frecuencia de operacion: {{settingsService.linkSettings.antennaSelected.frecuency}}
-          </ion-col>
+          <ng-container *ngIf="settingsService.linkSettings.antennaSelected.frecuency !== 0; else noFrecuency">
 
-          <ion-col>
-            Ganancia de la antena: {{settingsService.linkSettings.antennaSelected.txAntennaGain}}
-          </ion-col>
+            <ion-col>
+              Frecuencia de operacion: {{settingsService.linkSettings.antennaSelected.frecuency}} ({{translatefrecuencyMultFactor(settingsService.linkSettings.antennaSelected.frecuencyMultiplyFactor)}})
+            </ion-col>
+            
+          </ng-container>
+          <ng-template #noFrecuency>
 
+            <ion-col *ngIf="settingsService.linkSettings.antennaSelected.frecuency === 0">
+              Frecuencia de operacion: No establecida
+            </ion-col>
+              
+          </ng-template>
+
+          <ng-container *ngIf="settingsService.linkSettings.antennaSelected.txAntennaGain !== 0; else noAntennaGain">
+
+            <ion-col>
+              Ganancia de la antena: {{settingsService.linkSettings.antennaSelected.txAntennaGain}} (dBi)
+            </ion-col>  
+
+          </ng-container>
+          <ng-template #noAntennaGain>
+
+            <ion-col>
+              Ganancia de la antena: No establecida
+            </ion-col>
+              
+          </ng-template>
+          
         </ion-row>
 
         <ion-row>
 
-          <ion-col>
-            Pérdida de espacio libre: {{settingsService.linkSettings.antennaSelected.freeSpaceLoss}}
-          </ion-col>
-          
+          <ng-container *ngIf="settingsService.linkSettings.antennaSelected.freeSpaceLoss !== 0; else noPELCalculate">
+            <ion-col>
+              Pérdida de espacio libre: {{settingsService.linkSettings.antennaSelected.freeSpaceLoss}} (dBm)
+            </ion-col>  
+          </ng-container>
+          <ng-template #noPELCalculate>
+            <ion-col>
+              Pérdida de espacio libre: No calculada (calcular en "Potencia")
+            </ion-col>  
+          </ng-template>
+                    
+        </ion-row>
+
+        <ion-row>
+
+          <ng-container *ngIf="settingsService.linkSettings.antennaSelected.rxSensitivity !== 0; else noRxSensitivity">
+            <ion-col>
+              Sensibilidad el receptor: {{settingsService.linkSettings.antennaSelected.rxSensitivity}} (dBm)
+            </ion-col>  
+          </ng-container>
+          <ng-template #noRxSensitivity>
+            <ion-col>
+              Sensibilidad el receptor: No establecida
+            </ion-col>  
+          </ng-template>
+                    
         </ion-row>
 
       </div>
@@ -92,8 +141,8 @@
           <ion-button (click)="newLink()"
                       expand="full">
 
-            <ion-icon slot="start" name="bar-chart"></ion-icon>
-
+            <!-- <ion-icon slot="start" name="bar-chart"></ion-icon> -->
+            <ion-icon slot="start" name="add-circle-outline"></ion-icon>
             Nuevo Enlace
           </ion-button>
         </ion-col>
@@ -104,7 +153,8 @@
     
   </ion-card>
 
-  <ion-card>
+  <ion-card *ngIf="showLinkForm"
+            [@fadeIn]>
 
     <ion-card-header>
       <ion-card-title>
@@ -128,7 +178,7 @@
 
       <ion-row>
         <ion-col size="12">
-          <ion-button (click)="navToProfileGraph()"
+          <ion-button (click)="navToAtenuationGraph()"
                       expand="full">
             <ion-icon slot="start" name="sunny"></ion-icon>
             Atenuacion en Aire Seco
@@ -139,7 +189,7 @@
 
       <ion-row>
         <ion-col size="12">
-          <ion-button (click)="navToProfileGraph()"
+          <ion-button (click)="navToAtenuationVaporGraph()"
                       expand="full">
             <ion-icon slot="start" name="water"></ion-icon>
             Atenuacion debido a Vapor de Agua
