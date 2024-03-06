@@ -717,7 +717,8 @@ export const antennasList: Antenna[] = [
       rxSensitivitySelected: antennaRxDefaultSensitivity,
       antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
       antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
-    },    
+    }, 
+    //TODO: trabajando en este   
     {
       name: "Cambium Networks PTP 820C",
       txAntennaGain: 0,
@@ -725,12 +726,151 @@ export const antennasList: Antenna[] = [
       maxDistanceKm: "No disponible",
       imgPath: "../../../assets/images/antennas/Cambium Networks PTP 820C.png",
       checked: false,
-      antennaChannels: antennaChannelsCambiumNetwork670,
-      antennaModulations: antennaModulationsCambiumNetwork670,
-      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
-      rxSensitivitySelected: antennaRxDefaultSensitivity,
-      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
-      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
+      // antennaChannels: antennaChannelsCambiumNetwork670,
+      antennaChannels: [
+        "3.5 MHz",
+        "5 MHz",
+        "7 MHz",
+        "10 MHz",
+      ],
+      antennaModulations: [
+        "QPSK",
+        "16 QAM",
+        "32 QAM",
+        "64 QAM",
+        "128 QAM",
+        "256 QAM"
+      ],
+      rxSensitivityCombinations: [
+        {
+          antennaChannel: "3.5 MHz",
+          antennaModulation: "QPSK",
+          rxSensitivity: -96.0     
+        },
+        {
+          antennaChannel: "3.5 MHz",
+          antennaModulation: "16 QAM",
+          rxSensitivity: -89.0       
+        },
+        {
+          antennaChannel: "3.5 MHz",
+          antennaModulation: "32 QAM",
+          rxSensitivity: -85.5        
+        },
+        {
+          antennaChannel: "3.5 MHz",
+          antennaModulation: "64 QAM",
+          rxSensitivity: -82.5        
+        },
+        {
+          antennaChannel: "3.5 MHz",
+          antennaModulation: "128 QAM",
+          rxSensitivity: -79.0        
+        },
+        {
+          antennaChannel: "3.5 MHz",
+          antennaModulation: "256 QAM",
+          rxSensitivity: -75.5        
+        },
+        {
+          antennaChannel: "5 MHz",
+          antennaModulation: "QPSK",
+          rxSensitivity: -96.0     
+        },
+        {
+          antennaChannel: "5 MHz",
+          antennaModulation: "16 QAM",
+          rxSensitivity: -89.0       
+        },
+        {
+          antennaChannel: "5 MHz",
+          antennaModulation: "32 QAM",
+          rxSensitivity: -85.5        
+        },
+        {
+          antennaChannel: "5 MHz",
+          antennaModulation: "64 QAM",
+          rxSensitivity: -82.5        
+        },
+        {
+          antennaChannel: "5 MHz",
+          antennaModulation: "128 QAM",
+          rxSensitivity: -79.0        
+        },
+        {
+          antennaChannel: "5 MHz",
+          antennaModulation: "256 QAM",
+          rxSensitivity: -75.5        
+        },
+        {
+          antennaChannel: "7 MHz",
+          antennaModulation: "QPSK",
+          rxSensitivity: -93.0       
+        },
+        {
+          antennaChannel: "7 MHz",
+          antennaModulation: "16 QAM",
+          rxSensitivity: -86.5       
+        },
+        {
+          antennaChannel: "7 MHz",
+          antennaModulation: "32 QAM",
+          rxSensitivity: -83.0        
+        },
+        {
+          antennaChannel: "7 MHz",
+          antennaModulation: "64 QAM",
+          rxSensitivity: -80.0        
+        },
+        {
+          antennaChannel: "7 MHz",
+          antennaModulation: "128 QAM",
+          rxSensitivity: -76.5        
+        },
+        {
+          antennaChannel: "7 MHz",
+          antennaModulation: "256 QAM",
+          rxSensitivity: -73.5        
+        },
+        {
+          antennaChannel: "10 MHz",
+          antennaModulation: "QPSK",
+          rxSensitivity: -91.5       
+        },
+        {
+          antennaChannel: "10 MHz",
+          antennaModulation: "16 QAM",
+          rxSensitivity: -85.0       
+        },
+        {
+          antennaChannel: "10 MHz",
+          antennaModulation: "32 QAM",
+          rxSensitivity: -81.5        
+        },
+        {
+          antennaChannel: "10 MHz",
+          antennaModulation: "64 QAM",
+          rxSensitivity: -78.5        
+        },
+        {
+          antennaChannel: "10 MHz",
+          antennaModulation: "128 QAM",
+          rxSensitivity: -75.0        
+        },
+        {
+          antennaChannel: "10 MHz",
+          antennaModulation: "256 QAM",
+          rxSensitivity: -72.0        
+        },
+      ],
+      rxSensitivitySelected: 
+      {
+        antennaChannel: "3.5 MHz",
+        antennaModulation: "QPSK",
+        rxSensitivity: -96.0     
+      },
+      antennaChannelSelected: "3.5",
+      antennaModulationSelected: "QPSK"
     },  
     {
       name: "Nokia AirScale Radio Access",
