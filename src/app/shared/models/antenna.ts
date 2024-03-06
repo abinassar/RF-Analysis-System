@@ -921,12 +921,88 @@ export const antennasList: Antenna[] = [
       maxDistanceKm: "No disponible",
       imgPath: "../../../assets/images/antennas/DragonWave Harmony Enhanced.jpg",
       checked: false,
-      antennaChannels: antennaChannelsCambiumNetwork670,
-      antennaModulations: antennaModulationsCambiumNetwork670,
-      rxSensitivityCombinations: rxSensitivityCombinationsCambiumNetwork670,
-      rxSensitivitySelected: antennaRxDefaultSensitivity,
-      antennaChannelSelected: antennaChannelsCambiumNetwork670[0],
-      antennaModulationSelected: antennaModulationsCambiumNetwork670[0]
+      antennaChannels: [
+        "250 MHz",
+        "500 MHz"
+      ],
+      antennaModulations: [
+        "QPSK",
+        "16 QAM",
+        "32 QAM",
+        "64 QAM",
+        "128 QAM",
+        "256 QAM",
+      ],
+      rxSensitivityCombinations: [
+        {
+          antennaChannel: "250 MHz",
+          antennaModulation: "QPSK",
+          rxSensitivity: -69.5
+        },
+        {
+          antennaChannel: "250 MHz",
+          antennaModulation: "16 QAM",
+          rxSensitivity: -63.5
+        },
+        {
+          antennaChannel: "250 MHz",
+          antennaModulation: "32 QAM",
+          rxSensitivity: -60.5
+        },
+        {
+          antennaChannel: "250 MHz",
+          antennaModulation: "64 QAM",
+          rxSensitivity: -57.5
+        },
+        {
+          antennaChannel: "250 MHz",
+          antennaModulation: "128 QAM",
+          rxSensitivity: -54.5
+        },
+        {
+          antennaChannel: "250 MHz",
+          antennaModulation: "256 QAM",
+          rxSensitivity: -51.5
+        },
+        {
+          antennaChannel: "500 MHz",
+          antennaModulation: "QPSK",
+          rxSensitivity: -66.5
+        },
+        {
+          antennaChannel: "500 MHz",
+          antennaModulation: "16 QAM",
+          rxSensitivity: -60.5
+        },
+        {
+          antennaChannel: "500 MHz",
+          antennaModulation: "32 QAM",
+          rxSensitivity: -57.5
+        },
+        {
+          antennaChannel: "500 MHz",
+          antennaModulation: "64 QAM",
+          rxSensitivity: -54.5
+        },
+        {
+          antennaChannel: "500 MHz",
+          antennaModulation: "128 QAM",
+          rxSensitivity: -51.5
+        },
+        {
+          antennaChannel: "500 MHz",
+          antennaModulation: "256 QAM",
+          rxSensitivity: -48.5
+        }
+      ],
+      rxSensitivitySelected: 
+      {
+        antennaChannel: "250 MHz",
+        antennaModulation: "QPSK",
+        rxSensitivity: -69.5
+      },
+      antennaChannelSelected: "250 MHz",
+      antennaModulationSelected: "QPSK"
     },   
     {
       name: "Tsunami QB 8250 Link",
