@@ -109,6 +109,12 @@ export class ElevationProfileComponent implements OnDestroy {
               private router: Router,
               private screenOrientation: ScreenOrientation,
               private modalController: ModalController) { }
+
+
+              show() {
+                console.log("linkFrecuency ", this.linkFrecuency)
+                console.log("linkFrecuencyMultiplyFactor ", this.linkFrecuencyMultiplyFactor)
+              }
   
   async ionViewWillEnter() {
 
