@@ -1165,41 +1165,30 @@ export class ElevationProfileComponent implements OnDestroy {
 
   getHzFrecuency(): number {
 
-    return (this.linkFrecuency * this.linkFrecuencyMultiplyFactor);
-
     switch (this.linkFrecuencyMultiplyFactor) {
       case FrecuencyMultiplierFactor.GHZ:
 
-        return (this.linkFrecuency * this.linkFrecuencyMultiplyFactor)
-
-        break;
+        return this.linkFrecuency
 
       case FrecuencyMultiplierFactor.HZ:
 
-        // return (this.linkFrecuency / 1000000000)
-        return (this.linkFrecuency)
-
-        break;
+        return (this.linkFrecuency / this.linkFrecuencyMultiplyFactor)
         
       case FrecuencyMultiplierFactor.MHZ:
 
         return (this.linkFrecuency / 1000)
 
-        break;        
       default:
 
-        return (this.linkFrecuency * this.linkFrecuencyMultiplyFactor)
+        return this.linkFrecuency
 
-        break;
     }
 
   }
 
   fresnelRadio(lambda: number, d1: number, d2: number): number {
 
-    // const ghzFrecuency = this.settingsForm.get('frecuency').value / 1000;
-
-    const ghzFrecuency = this.getHzFrecuency()
+    const ghzFrecuency = this.getHzFrecuency();
     return 17.32 * Math.sqrt((d1 * d2)/((d1 + d2) * ghzFrecuency));
 
   }
